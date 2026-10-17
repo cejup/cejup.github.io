@@ -9,8 +9,11 @@
   const SITIO = {
     instagram: "https://www.instagram.com/cejupucsur/",
     linkedin: "https://www.linkedin.com/company/cejupucsur/",
-    whatsapp: "https://wa.me/51969100823",
-    telefono: "969 100 823"
+    whatsapp: "https://wa.me/51929340631",
+    telefonos: [
+      { numero: "51929340631", texto: "+51 929 340 631" },
+      { numero: "51997985282", texto: "+51 997 985 282" }
+    ]
   };
 
   const LINEAS = window.CEJUP_LINEAS || [];
@@ -162,7 +165,7 @@
           <ul>
             <li><a href="${SITIO.instagram}" target="_blank" rel="noopener">${icon("instagram")}Instagram</a></li>
             <li><a href="${SITIO.linkedin}" target="_blank" rel="noopener">${icon("linkedin")}LinkedIn</a></li>
-            <li><a href="${SITIO.whatsapp}" target="_blank" rel="noopener">${icon("whatsapp")}${SITIO.telefono}</a></li>
+            ${SITIO.telefonos.map(t => `<li><a href="https://wa.me/${t.numero}" target="_blank" rel="noopener">${icon("whatsapp")}${t.texto}</a></li>`).join("")}
           </ul>
         </div>
       </div>
