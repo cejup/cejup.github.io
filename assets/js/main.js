@@ -208,14 +208,14 @@
   function listaLineas(activa) {
     return LINEAS.map(l => {
       const n = PUBS.filter(p => p.linea === l.id).length;
-      return `<a href="${urlRepo({ linea: l.id })}" data-linea="${l.id}" class="${activa === l.id ? "on" : ""}">${icon(l.icono)}<span>${esc(l.nombre)}</span><b>${n}</b></a>`;
+      return `<a href="${urlRepo({ linea: l.id })}" data-linea="${l.id}" class="${activa === l.id ? "on" : ""}">${icon(l.icono)}<span>${esc(l.nombre)}</span><b>${n || ""}</b></a>`;
     }).join("");
   }
 
   function listaSecciones() {
     return SECCIONES.map(s => {
       const n = PUBS.filter(p => p.seccion === s.id).length;
-      return `<a href="${urlRepo({ seccion: s.id })}">${icon(s.icono)}<span>${esc(s.nombre)}</span><b>${n}</b></a>`;
+      return `<a href="${urlRepo({ seccion: s.id })}">${icon(s.icono)}<span>${esc(s.nombre)}</span><b>${n || ""}</b></a>`;
     }).join("");
   }
 
@@ -238,9 +238,9 @@
         : `
           <div class="coming">
             <img class="coming-seal" src="assets/img/logo.webp" alt="">
-            <span class="eyebrow">Próximamente</span>
-            <h3>Muy pronto, nuestras primeras publicaciones</h3>
-            <p>Aquí encontrarás los artículos de investigación, las reformas del mes, los análisis de derecho comparado y las piezas de periodismo del CEJUP.</p>
+            <span class="eyebrow">Repositorio CEJUP</span>
+            <h3>Investigación penal <span>hecha por estudiantes</span></h3>
+            <p>Artículos de investigación, reformas del mes, análisis de derecho comparado y periodismo jurídico, organizados en seis líneas de investigación.</p>
             <div class="coming-tags">
               ${SECCIONES.map(s => `<a href="${urlRepo({ seccion: s.id })}">${icon(s.icono)}${esc(s.nombre)}</a>`).join("")}
             </div>
@@ -268,7 +268,7 @@
             <span>
               <span class="line-name">${esc(l.nombre)}</span>
               <span class="line-desc">${esc(l.descripcion)}</span>
-              <span class="line-count">${n ? cuenta(n, "publicación", "publicaciones") : "Próximamente"}</span>
+              ${n ? `<span class="line-count">${cuenta(n, "publicación", "publicaciones")}</span>` : ""}
             </span>
             <span class="line-go">${icon("arrow")}</span>
           </a>`;
@@ -287,10 +287,11 @@
             ${icon(s.icono)}
             <h3>${esc(s.nombre)}</h3>
             <p>${esc(s.descripcion)}</p>
+            ${ultima ? `
             <div class="sec-latest">
               <small>Última entrega</small>
-              ${ultima ? `<a href="${urlPub(ultima)}">${esc(ultima.titulo)}</a>` : "<span>La primera entrega llega muy pronto.</span>"}
-            </div>
+              <a href="${urlPub(ultima)}">${esc(ultima.titulo)}</a>
+            </div>` : ""}
             <a class="more" href="${urlRepo({ seccion: s.id })}">Ver sección</a>
           </article>`;
       }).join("");
@@ -320,7 +321,7 @@
       const opciones = [{ id: "", corto: "Todo" }].concat(SECCIONES.map(s => ({ id: s.id, corto: s.id === "articulos" ? "Artículos" : s.corto })));
       tabs.innerHTML = opciones.map(o => {
         const n = PUBS.filter(p => !o.id || p.seccion === o.id).length;
-        return `<button class="tab" role="tab" type="button" data-seccion="${o.id}" aria-selected="${estado.seccion === o.id}">${esc(o.corto)} <span class="n">${n}</span></button>`;
+        return `<button class="tab" role="tab" type="button" data-seccion="${o.id}" aria-selected="${estado.seccion === o.id}">${esc(o.corto)}${n ? ` <span class="n">${n}</span>` : ""}</button>`;
       }).join("");
       select.value = estado.linea;
       lateral.innerHTML = listaLineas(estado.linea);
@@ -347,12 +348,11 @@
 
       info.textContent = q
         ? `${cuenta(res.length, "resultado", "resultados")} para “${estado.q.trim()}”`
-        : cuenta(res.length, "publicación", "publicaciones");
+        : (res.length ? cuenta(res.length, "publicación", "publicaciones") : "");
       lista.innerHTML = res.length
         ? res.map(itemPublicacion).join("")
         : (q ? vacio("Sin resultados", "Prueba con otras palabras o quita algún filtro.")
-             : PUBS.length ? vacio("Aún no hay publicaciones aquí", "Muy pronto compartiremos nuevos trabajos en esta sección.")
-             : vacio("Muy pronto, las primeras publicaciones", "Aquí aparecerán los trabajos del CEJUP."));
+             : vacio("Nuevas publicaciones en camino", "Mientras tanto, explora nuestras líneas de investigación y secciones."));
 
       try {
         history.replaceState(null, "", urlRepo({ seccion: estado.seccion, linea: estado.linea, q: estado.q.trim() }) + location.hash);
