@@ -16,37 +16,37 @@ window.CEJUP_LINEAS = [
     id: "derecho-penal",
     nombre: "Derecho Penal – Parte General",
     icono: "scales",
-    descripcion: "Teoría del delito, imputación, autoría y participación, y consecuencias jurídicas del delito."
+    descripcion: "Los fundamentos del sistema penal: cómo se construye la responsabilidad penal y cuáles son sus límites."
   },
   {
     id: "derecho-penal-parte-especial",
     nombre: "Derecho Penal – Parte Especial",
     icono: "book",
-    descripcion: "Los delitos en particular: contra la vida, el patrimonio, la administración pública y la criminalidad organizada, entre otros."
+    descripcion: "El estudio de las figuras delictivas a la luz de la jurisprudencia y de los problemas que plantea la realidad."
   },
   {
     id: "derecho-procesal-penal",
     nombre: "Derecho Procesal Penal",
     icono: "columns",
-    descripcion: "Proceso penal acusatorio, prueba, medidas de coerción, litigación y garantías del imputado y la víctima."
+    descripcion: "El proceso penal como garantía: la prueba, la litigación y el equilibrio entre eficacia y derechos."
   },
   {
     id: "politica-criminal",
     nombre: "Política Criminal",
     icono: "compass",
-    descripcion: "Cómo responde el Estado frente al delito: reformas, penas, prevención y evaluación de sus resultados."
+    descripcion: "Las decisiones del Estado frente al delito y su impacto real en la sociedad."
   },
   {
     id: "criminologia",
     nombre: "Criminología",
     icono: "fingerprint",
-    descripcion: "Causas y dinámicas del delito, victimología, control social y estudio empírico de la criminalidad."
+    descripcion: "El delito como fenómeno social: sus causas, sus protagonistas y las respuestas que genera."
   },
   {
     id: "compliance",
     nombre: "Compliance",
     icono: "shield",
-    descripcion: "Prevención de delitos en las organizaciones, responsabilidad de las personas jurídicas y modelos de cumplimiento."
+    descripcion: "La prevención del delito en las organizaciones y la responsabilidad de las personas jurídicas."
   }
 ];
 
