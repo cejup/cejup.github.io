@@ -1,5 +1,5 @@
 /* =========================================================
-   ESTRUCTURA DEL REPOSITORIO
+   ESTRUCTURA DEL SITIO
    Círculo de Estudios sobre Justicia Penal (CEJUP)
    ---------------------------------------------------------
    Aquí se definen las líneas de investigación y las

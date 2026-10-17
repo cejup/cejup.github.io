@@ -32,7 +32,7 @@
   const urlPub = p => `publicacion.html?id=${encodeURIComponent(p.id)}`;
   const urlRepo = (params = {}) => {
     const u = new URLSearchParams(Object.entries(params).filter(([, v]) => v));
-    return "repositorio.html" + (u.toString() ? "?" + u : "");
+    return "publicaciones.html" + (u.toString() ? "?" + u : "");
   };
 
   /* ---------- Iconos ---------- */
@@ -90,7 +90,7 @@
           <a href="${SITIO.linkedin}" target="_blank" rel="noopener" aria-label="LinkedIn">${icon("linkedin")}</a>
           <a href="${SITIO.whatsapp}" target="_blank" rel="noopener" aria-label="WhatsApp">${icon("whatsapp")}</a>
         </div>
-        <span class="uni">Universidad Científica del Sur · Carrera de Derecho</span>
+        <span class="uni">Lima · Perú</span>
       </div></div>`);
 
     h.className = "site-header";
@@ -114,11 +114,11 @@
               ${SECCIONES_FIJAS.map(s => `<a href="${urlRepo({ seccion: s.id })}">${icon(s.icono)}${esc(s.nombre)}</a>`).join("")}
             </div>
           </div>
-          <a href="repositorio.html"${activo("repositorio")}>Repositorio</a>
+          <a href="publicaciones.html"${activo("publicaciones")}>Publicaciones</a>
           <a href="nosotros.html"${activo("nosotros")}>Nosotros</a>
           <a href="#contacto">Contacto</a>
         </nav>
-        <a class="icon-btn" href="repositorio.html#buscar" aria-label="Buscar en el repositorio">${icon("search")}</a>
+        <a class="icon-btn" href="publicaciones.html#buscar" aria-label="Buscar publicaciones">${icon("search")}</a>
         <button class="menu-btn" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav">${icon("menu")}</button>
       </div>`;
 
@@ -144,7 +144,7 @@
             <img src="assets/img/logo.webp" alt="" width="60" height="60">
             <span><b>CEJUP</b><small>Círculo de Estudios sobre Justicia Penal</small></span>
           </a>
-          <p class="about">Repositorio del Círculo de Estudios sobre Justicia Penal, organización estudiantil de la carrera de Derecho de la Universidad Científica del Sur.</p>
+          <p class="about">Organización estudiantil dedicada al estudio, la investigación y el debate de las ciencias penales.</p>
         </div>
         <div>
           <h4>Líneas</h4>
@@ -160,8 +160,8 @@
         <div class="contact">
           <h4>Contacto</h4>
           <ul>
-            <li><a href="${SITIO.instagram}" target="_blank" rel="noopener">${icon("instagram")}@cejupucsur</a></li>
-            <li><a href="${SITIO.linkedin}" target="_blank" rel="noopener">${icon("linkedin")}CEJUP en LinkedIn</a></li>
+            <li><a href="${SITIO.instagram}" target="_blank" rel="noopener">${icon("instagram")}Instagram</a></li>
+            <li><a href="${SITIO.linkedin}" target="_blank" rel="noopener">${icon("linkedin")}LinkedIn</a></li>
             <li><a href="${SITIO.whatsapp}" target="_blank" rel="noopener">${icon("whatsapp")}${SITIO.telefono}</a></li>
           </ul>
         </div>
@@ -169,7 +169,7 @@
       <div class="foot-word" aria-hidden="true">CEJUP</div>
       <div class="foot-bottom"><div class="wrap">
         <span>© ${new Date().getFullYear()} CEJUP · Círculo de Estudios sobre Justicia Penal</span>
-        <span>Universidad Científica del Sur · Lima, Perú</span>
+        <span>Lima, Perú</span>
       </div></div>`;
   }
 
@@ -239,8 +239,8 @@
           <div class="coming">
             <img class="coming-seal" src="assets/img/logo.webp" alt="">
             <span class="eyebrow">Próximamente</span>
-            <h3>El repositorio del CEJUP abre sus puertas</h3>
-            <p>Muy pronto publicaremos aquí los primeros artículos de investigación, las reformas del mes, los análisis de derecho comparado y las piezas de periodismo jurídico del Círculo.</p>
+            <h3>Muy pronto, nuestras primeras publicaciones</h3>
+            <p>Aquí encontrarás los artículos de investigación, las reformas del mes, los análisis de derecho comparado y las piezas de periodismo del CEJUP.</p>
             <div class="coming-tags">
               ${SECCIONES.map(s => `<a href="${urlRepo({ seccion: s.id })}">${icon(s.icono)}${esc(s.nombre)}</a>`).join("")}
             </div>
@@ -297,8 +297,8 @@
     }
   }
 
-  /* ---------- Repositorio ---------- */
-  function repositorio() {
+  /* ---------- Publicaciones ---------- */
+  function publicaciones() {
     const params = new URLSearchParams(location.search);
     const estado = {
       seccion: seccion(params.get("seccion")) ? params.get("seccion") : "",
@@ -329,7 +329,7 @@
     function pintar() {
       const s = seccion(estado.seccion);
       const l = linea(estado.linea);
-      let kicker = "CEJUP", titulo = "Repositorio", sub = "Artículos, reformas del mes, derecho comparado y periodismo jurídico elaborados por los miembros del CEJUP.";
+      let kicker = "CEJUP", titulo = "Publicaciones", sub = "Artículos, reformas del mes, derecho comparado y periodismo jurídico elaborados por los miembros del CEJUP.";
       if (s) { kicker = "Sección"; titulo = s.nombre; sub = s.descripcion; }
       else if (l) { kicker = "Línea de investigación"; titulo = l.nombre; sub = l.descripcion; }
       if (s && l) sub = `${s.descripcion} Línea: ${l.nombre}.`;
@@ -352,7 +352,7 @@
         ? res.map(itemPublicacion).join("")
         : (q ? vacio("Sin resultados", "Prueba con otras palabras o quita algún filtro.")
              : PUBS.length ? vacio("Aún no hay publicaciones aquí", "Muy pronto compartiremos nuevos trabajos en esta sección.")
-             : vacio("El repositorio está por estrenarse", "Muy pronto publicaremos aquí los primeros trabajos del CEJUP."));
+             : vacio("Muy pronto, las primeras publicaciones", "Aquí aparecerán los trabajos del CEJUP."));
 
       try {
         history.replaceState(null, "", urlRepo({ seccion: estado.seccion, linea: estado.linea, q: estado.q.trim() }) + location.hash);
@@ -390,12 +390,12 @@
     if (!p) {
       app.innerHTML = `
         <div class="page-hero compact"><div class="wrap">
-          <nav class="crumbs"><a href="index.html">Inicio</a><span>/</span><a href="repositorio.html">Repositorio</a></nav>
+          <nav class="crumbs"><a href="index.html">Inicio</a><span>/</span><a href="publicaciones.html">Publicaciones</a></nav>
           <h1>No encontramos esta publicación</h1>
         </div></div>
         <section><div class="wrap">
-          ${vacio("El enlace no es válido o la publicación fue retirada", "Revisa el repositorio completo.")}
-          <p style="text-align:center;margin-top:24px"><a class="btn btn-dark" href="repositorio.html">Ir al repositorio</a></p>
+          ${vacio("El enlace no es válido o la publicación fue retirada", "Revisa todas las publicaciones.")}
+          <p style="text-align:center;margin-top:24px"><a class="btn btn-dark" href="publicaciones.html">Ver publicaciones</a></p>
         </div></section>`;
       return;
     }
@@ -426,7 +426,7 @@
       <div class="page-hero compact"><div class="wrap">
         <nav class="crumbs">
           <a href="index.html">Inicio</a><span>/</span>
-          <a href="repositorio.html">Repositorio</a>
+          <a href="publicaciones.html">Publicaciones</a>
           ${s ? `<span>/</span><a href="${urlRepo({ seccion: s.id })}">${esc(s.nombre)}</a>` : ""}
         </nav>
         <div class="detail-meta">${etiquetasPub(p)}</div>
@@ -437,7 +437,7 @@
 
       <section><div class="wrap with-side">
         <div>
-          ${p.ejemplo ? `<div class="notice">${icon("info")}<span>Esta es una publicación de ejemplo para mostrar cómo se verá el repositorio. Se reemplazará por los trabajos del CEJUP.</span></div>` : ""}
+          ${p.ejemplo ? `<div class="notice">${icon("info")}<span>Esta es una publicación de ejemplo para mostrar cómo se verá la sección. Se reemplazará por los trabajos del CEJUP.</span></div>` : ""}
           ${p.resumen ? `<div class="abstract"><h2>Resumen</h2><p>${esc(p.resumen)}</p></div>` : ""}
           ${p.contenido ? `<div class="prose">${p.contenido}</div>` : ""}
           ${documento}
@@ -555,7 +555,7 @@
     sprite();
     cabecera(pagina);
     pie();
-    const init = { inicio, repositorio, publicacion }[pagina];
+    const init = { inicio, publicaciones, publicacion }[pagina];
     if (init) init();
     comportamientos();
   });

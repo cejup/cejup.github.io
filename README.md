@@ -1,6 +1,6 @@
 # CEJUP · Círculo de Estudios sobre Justicia Penal
 
-Repositorio web del Círculo de Estudios sobre Justicia Penal (CEJUP), organización estudiantil de la carrera de Derecho de la Universidad Científica del Sur.
+Sitio web del Círculo de Estudios sobre Justicia Penal (CEJUP), organización estudiantil de Derecho.
 
 HTML, CSS y JavaScript puros: no necesita instalar nada. Para verlo en local basta con abrir `index.html` en el navegador (o usar la extensión *Live Server* de VS Code).
 
@@ -21,7 +21,7 @@ Los nombres y descripciones se editan en `data/estructura.js`.
 
 ```
 index.html            Inicio: líneas, secciones y publicaciones recientes
-repositorio.html      Todas las publicaciones, con filtros por sección y línea
+publicaciones.html    Todas las publicaciones, con filtros por sección y línea
 publicacion.html      Página de cada publicación (?id=...)
 nosotros.html         Quiénes somos, misión, visión y estructura
 

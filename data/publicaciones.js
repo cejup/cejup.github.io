@@ -1,5 +1,5 @@
 /* =========================================================
-   PUBLICACIONES DEL REPOSITORIO
+   PUBLICACIONES DEL CEJUP
    ---------------------------------------------------------
    Para agregar una publicación, copia la plantilla de abajo
    dentro de los corchetes [ ] y cambia sus datos.
