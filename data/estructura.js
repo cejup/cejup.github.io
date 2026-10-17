@@ -67,8 +67,8 @@ window.CEJUP_SECCIONES = [
   },
   {
     id: "peru-mundo",
-    nombre: "Del Perú para el mundo, del mundo para el Perú",
-    corto: "Perú y el mundo",
+    nombre: "Del mundo para el Perú",
+    corto: "Del mundo para el Perú",
     icono: "globe",
     descripcion: "Reformas y propuestas legislativas de otros países, y cómo podrían leerse desde el ordenamiento jurídico peruano."
   },

@@ -12,7 +12,7 @@ Derecho Penal – Parte General · Derecho Penal – Parte Especial · Derecho P
 **Secciones**
 - *Artículos de investigación*: trabajos por línea de investigación.
 - *Las reformas del mes*: análisis de proyectos de ley y de lo que se discute en el Congreso.
-- *Del Perú para el mundo, del mundo para el Perú*: reformas de otros países leídas desde el ordenamiento peruano.
+- *Del mundo para el Perú*: reformas de otros países leídas desde el ordenamiento peruano.
 - *Periodismo*: comentarios sobre casos concretos y temas de actualidad, con enfoque periodístico.
 
 Los nombres y descripciones se editan en `data/estructura.js`.

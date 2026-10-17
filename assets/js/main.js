@@ -239,7 +239,7 @@
           <div class="coming">
             <img class="coming-seal" src="assets/img/logo.webp" alt="">
             <span class="eyebrow">Repositorio CEJUP</span>
-            <h3>Investigación penal <span>hecha por estudiantes</span></h3>
+            <h3>Productos <span>académicos</span></h3>
             <p>Artículos de investigación, reformas del mes, análisis de derecho comparado y periodismo jurídico, organizados en seis líneas de investigación.</p>
             <div class="coming-tags">
               ${SECCIONES.map(s => `<a href="${urlRepo({ seccion: s.id })}">${icon(s.icono)}${esc(s.nombre)}</a>`).join("")}
