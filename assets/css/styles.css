@@ -402,12 +402,17 @@ a.org-item { text-decoration: none; }
   position: relative; overflow: hidden; border-top-left-radius: 120px;
   background:
     var(--grano),
-    radial-gradient(620px 320px at 12% 0%, rgba(84, 110, 190, .38), transparent 70%),
-    radial-gradient(560px 360px at 92% 110%, rgba(126, 96, 214, .30), transparent 70%),
-    linear-gradient(120deg, #040a20 0%, #0a1740 45%, #17266a 78%, #262a78 100%);
-  color: #b3bacb; font-size: 14.5px;
+    radial-gradient(720px 360px at 8% 0%, rgba(74, 95, 149, .22), transparent 70%),
+    linear-gradient(165deg, #030817 0%, #06112c 52%, #0a1838 100%);
+  color: #aab2c2; font-size: 14.5px;
 }
-.site-footer::after { content: ""; position: absolute; left: 120px; right: 0; top: 0; height: 1px; background: linear-gradient(90deg, rgba(185, 193, 207, .35), transparent 70%); }
+.site-footer::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: var(--contornos) right center / 1100px auto no-repeat;
+  -webkit-mask-image: linear-gradient(to left, #000 0%, transparent 62%); mask-image: linear-gradient(to left, #000 0%, transparent 62%);
+}
+.site-footer::after { content: ""; position: absolute; left: 120px; right: 0; top: 0; height: 1px; background: linear-gradient(90deg, rgba(185, 193, 207, .3), transparent 70%); }
+.site-footer .greca { height: 14px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='10' viewBox='0 0 16 10'%3E%3Cpath d='M0 9.5H16M13 9.5V1.5H3V7.5H9V4.5H6' fill='none' stroke='%23b9c1cf' stroke-opacity='.32' stroke-width='1'/%3E%3C/svg%3E") left center / 22px 14px repeat-x; opacity: .9; }
 .site-footer > * { position: relative; }
 main:has(> .values:last-child) { padding-bottom: 72px; }
 .site-footer .foot-top { display: grid; grid-template-columns: 1.4fr 1fr 1.1fr 1fr; gap: 40px; padding-top: 52px; padding-bottom: 36px; }
@@ -419,7 +424,7 @@ main:has(> .values:last-child) { padding-bottom: 72px; }
 .site-footer a:hover { color: var(--white); }
 .site-footer .contact a { display: inline-flex; align-items: center; gap: 10px; }
 .site-footer .contact .i { width: 18px; height: 18px; color: var(--silver); }
-.site-footer .foot-bottom { border-top: 1px solid rgba(255, 255, 255, .08); }
+.site-footer .foot-bottom { border-top: 0; }
 .site-footer .foot-bottom .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; padding-top: 16px; padding-bottom: 16px; font-size: 13px; color: var(--plomo-400); }
 
 /* ---------- Portada: sello, cifras y marca de agua ---------- */

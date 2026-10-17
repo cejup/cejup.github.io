@@ -166,6 +166,7 @@
           </ul>
         </div>
       </div>
+      <div class="wrap"><div class="greca" aria-hidden="true"></div></div>
       <div class="foot-bottom"><div class="wrap">
         <span>© ${new Date().getFullYear()} CEJUP · Círculo de Estudios sobre Justicia Penal</span>
         <span>Lima, Perú</span>
