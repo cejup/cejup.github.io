@@ -1,7 +1,7 @@
 /* =========================================================
-   CEJUP · lógica del sitio
+   CEJUP · Repositorio de la Dirección de Investigación
    - Cabecera, menú y pie de página comunes
-   - Listas de publicaciones y actividades (desde data/*.js)
+   - Líneas, secciones y publicaciones (desde data/*.js)
    ========================================================= */
 (function () {
   "use strict";
@@ -13,15 +13,14 @@
     telefono: "969 100 823"
   };
 
-  const TIPOS = {
-    articulo: { singular: "Artículo", plural: "Artículos", icono: "articulo", descripcion: "Análisis e investigación sobre Derecho Penal y Procesal Penal." },
-    nota: { singular: "Nota", plural: "Notas", icono: "nota", descripcion: "Comentarios breves sobre casos, jurisprudencia y temas de actualidad." },
-    paper: { singular: "Paper", plural: "Papers", icono: "paper", descripcion: "Investigaciones académicas extensas, con metodología y referencias." }
-  };
+  const LINEAS = window.CEJUP_LINEAS || [];
+  const SECCIONES = window.CEJUP_SECCIONES || [];
+  const PUBS = (window.CEJUP_PUBLICACIONES || []).slice()
+    .sort((a, b) => String(b.fecha).localeCompare(String(a.fecha)));
 
-  const porFecha = (a, b) => String(b.fecha).localeCompare(String(a.fecha));
-  const PUBS = (window.CEJUP_PUBLICACIONES || []).slice().sort(porFecha);
-  const ACTS = (window.CEJUP_ACTIVIDADES || []).slice().sort(porFecha);
+  const linea = id => LINEAS.find(l => l.id === id);
+  const seccion = id => SECCIONES.find(s => s.id === id);
+  const SECCIONES_FIJAS = SECCIONES.filter(s => s.id !== "articulos");
 
   /* ---------- Utilidades ---------- */
   const $ = (s, c = document) => c.querySelector(s);
@@ -31,6 +30,10 @@
   const normal = s => String(s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
   const cuenta = (n, uno, varios) => `${n} ${n === 1 ? uno : varios}`;
   const urlPub = p => `publicacion.html?id=${encodeURIComponent(p.id)}`;
+  const urlRepo = (params = {}) => {
+    const u = new URLSearchParams(Object.entries(params).filter(([, v]) => v));
+    return "repositorio.html" + (u.toString() ? "?" + u : "");
+  };
 
   /* ---------- Iconos ---------- */
   const ICONOS = {
@@ -47,20 +50,24 @@
     file: '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/>',
     download: '<path d="M12 4v11M7 10l5 5 5-5M5 20h14"/>',
     external: '<path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>',
-    calendar: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
-    pin: '<path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
-    users: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.6a3.5 3.5 0 0 1 0 6.8M18.5 20a6.5 6.5 0 0 0-3-5.5"/>',
-    articulo: '<path d="M2 5h7a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H2zM22 5h-7a3 3 0 0 0-3 3v12a2 2 0 0 1 2-2h8z"/>',
-    nota: '<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/>',
-    paper: '<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/>',
-    camera: '<path d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.5"/>',
-    formacion: '<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/>',
-    difusion: '<path d="M3 10v4h3l7 4V6L6 10z"/><path d="M16 9a4 4 0 0 1 0 6M19 6.5a8 8 0 0 1 0 11"/>',
-    scales: '<path d="M12 3v18M8 21h8M5 7h14M5 7l-3 6a3 3 0 0 0 6 0zM19 7l-3 6a3 3 0 0 0 6 0z"/>',
+    share: '<circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="M8.2 10.8l7.6-4.4M8.2 13.2l7.6 4.4"/>',
+    info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8v.1"/>',
     target: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>',
     eye: '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
-    share: '<circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="M8.2 10.8l7.6-4.4M8.2 13.2l7.6 4.4"/>',
-    info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8v.1"/>'
+    formacion: '<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/>',
+    difusion: '<path d="M3 10v4h3l7 4V6L6 10z"/><path d="M16 9a4 4 0 0 1 0 6M19 6.5a8 8 0 0 1 0 11"/>',
+    /* Líneas de investigación */
+    columns: '<path d="M3 21h18M4 18h16M5 18V9M9.5 18V9M14.5 18V9M19 18V9M3 9l9-6 9 6z"/>',
+    scales: '<path d="M12 3v18M8 21h8M5 7h14M5 7l-3 6a3 3 0 0 0 6 0zM19 7l-3 6a3 3 0 0 0 6 0z"/>',
+    compass: '<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>',
+    book: '<path d="M4 4.5A1.5 1.5 0 0 1 5.5 3H20v15H5.5A1.5 1.5 0 0 0 4 19.5z"/><path d="M4 19.5A1.5 1.5 0 0 0 5.5 21H20v-3M9 7h7M9 11h5"/>',
+    fingerprint: '<path d="M7 18.5c1.2-1.8 2-4 2-6.5a3 3 0 0 1 6 0c0 1.2-.1 2.4-.4 3.5M12 12c0 3.4-1.1 6.4-3 8.5M17.5 16.5c.3-1.4.5-2.9.5-4.5a6 6 0 0 0-11.3-2.8M4.5 15c.3-1 .5-2 .5-3a7 7 0 0 1 1-3.6M15.2 19.5c.4-.8.8-1.6 1-2.5"/>',
+    shield: '<path d="M12 3l8 3v6c0 4.6-3.4 8.3-8 9-4.6-.7-8-4.4-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/>',
+    /* Secciones */
+    articulo: '<path d="M2 5h7a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H2zM22 5h-7a3 3 0 0 0-3 3v12a2 2 0 0 1 2-2h8z"/>',
+    landmark: '<path d="M3 21h18M5 21V11M19 21V11M9 21V11M15 21V11M2 11h20M12 3l9 5H3z"/>',
+    globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',
+    newspaper: '<path d="M4 5h13v14a2 2 0 0 0 2 2H6a2 2 0 0 1-2-2z"/><path d="M17 9h3v10a2 2 0 0 1-4 0M7.5 9h6M7.5 13h6M7.5 17h4"/>'
   };
 
   function sprite() {
@@ -83,7 +90,7 @@
           <a href="${SITIO.linkedin}" target="_blank" rel="noopener" aria-label="LinkedIn">${icon("linkedin")}</a>
           <a href="${SITIO.whatsapp}" target="_blank" rel="noopener" aria-label="WhatsApp">${icon("whatsapp")}</a>
         </div>
-        <span class="uni">Universidad Científica del Sur · Carrera de Derecho</span>
+        <span class="uni">Dirección de Investigación · Universidad Científica del Sur</span>
       </div></div>`);
 
     h.className = "site-header";
@@ -95,18 +102,23 @@
         </a>
         <nav class="nav" id="nav" aria-label="Principal">
           <a href="index.html"${activo("inicio")}>Inicio</a>
-          <a href="nosotros.html"${activo("nosotros")}>Nosotros</a>
           <div class="has-sub">
-            <a href="publicaciones.html"${activo("publicaciones")}>Publicaciones ${icon("chevron-down")}</a>
+            <a href="index.html#lineas">Líneas ${icon("chevron-down")}</a>
             <div class="sub">
-              ${Object.entries(TIPOS).map(([k, t]) => `<a href="publicaciones.html?tipo=${k}">${icon(t.icono)}${t.plural}</a>`).join("")}
-              <hr><a href="publicaciones.html">${icon("arrow")}Ver todas</a>
+              ${LINEAS.map(l => `<a href="${urlRepo({ linea: l.id })}">${icon(l.icono)}${esc(l.nombre)}</a>`).join("")}
             </div>
           </div>
-          <a href="galeria.html"${activo("galeria")}>Galería</a>
+          <div class="has-sub">
+            <a href="index.html#secciones">Secciones ${icon("chevron-down")}</a>
+            <div class="sub">
+              ${SECCIONES_FIJAS.map(s => `<a href="${urlRepo({ seccion: s.id })}">${icon(s.icono)}${esc(s.nombre)}</a>`).join("")}
+            </div>
+          </div>
+          <a href="repositorio.html"${activo("repositorio")}>Repositorio</a>
+          <a href="nosotros.html"${activo("nosotros")}>Nosotros</a>
           <a href="#contacto">Contacto</a>
         </nav>
-        <a class="icon-btn" href="publicaciones.html#buscar" aria-label="Buscar publicaciones">${icon("search")}</a>
+        <a class="icon-btn" href="repositorio.html#buscar" aria-label="Buscar en el repositorio">${icon("search")}</a>
         <button class="menu-btn" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav">${icon("menu")}</button>
       </div>`;
 
@@ -132,20 +144,17 @@
             <img src="assets/img/logo.webp" alt="" width="60" height="60">
             <span><b>CEJUP</b><small>Círculo de Estudios sobre Justicia Penal</small></span>
           </a>
-          <p class="about">Organización estudiantil de la carrera de Derecho de la Universidad Científica del Sur. Estudiamos, investigamos y debatimos las ciencias penales.</p>
+          <p class="about">Repositorio de la Dirección de Investigación del CEJUP, organización estudiantil de la carrera de Derecho de la Universidad Científica del Sur.</p>
         </div>
         <div>
-          <h4>Explora</h4>
+          <h4>Líneas</h4>
+          <ul>${LINEAS.map(l => `<li><a href="${urlRepo({ linea: l.id })}">${esc(l.nombre)}</a></li>`).join("")}</ul>
+        </div>
+        <div>
+          <h4>Secciones</h4>
           <ul>
-            <li><a href="index.html">Inicio</a></li>
+            ${SECCIONES.map(s => `<li><a href="${urlRepo({ seccion: s.id })}">${esc(s.nombre)}</a></li>`).join("")}
             <li><a href="nosotros.html">Nosotros</a></li>
-            <li><a href="galeria.html">Galería</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4>Publicaciones</h4>
-          <ul>
-            ${Object.entries(TIPOS).map(([k, t]) => `<li><a href="publicaciones.html?tipo=${k}">${t.plural}</a></li>`).join("")}
           </ul>
         </div>
         <div class="contact">
@@ -164,15 +173,20 @@
   }
 
   /* ---------- Piezas reutilizables ---------- */
+  function etiquetasPub(p) {
+    const s = seccion(p.seccion);
+    const l = linea(p.linea);
+    return `
+      ${s ? `<span class="badge badge-sec">${esc(s.corto)}</span>` : ""}
+      ${l ? `<span class="badge badge-linea">${esc(l.nombre)}</span>` : ""}
+      ${p.ejemplo ? '<span class="badge badge-ejemplo">Ejemplo</span>' : ""}
+      <time datetime="${esc(p.fecha)}">${fechaLarga(p.fecha)}</time>`;
+  }
+
   function itemPublicacion(p) {
-    const t = TIPOS[p.tipo] || { singular: p.tipo };
     return `
       <article class="pub">
-        <div class="pub-meta">
-          <span class="badge badge-${esc(p.tipo)}">${esc(t.singular)}</span>
-          ${p.ejemplo ? '<span class="badge badge-ejemplo">Ejemplo</span>' : ""}
-          <time datetime="${esc(p.fecha)}">${fechaLarga(p.fecha)}</time>
-        </div>
+        <div class="pub-meta">${etiquetasPub(p)}</div>
         <h3 class="pub-title"><a href="${urlPub(p)}">${esc(p.titulo)}</a></h3>
         ${p.autores && p.autores.length ? `<p class="pub-authors">${esc(p.autores.join(", "))}</p>` : ""}
         ${p.resumen ? `<p class="pub-abstract">${esc(p.resumen)}</p>` : ""}
@@ -187,40 +201,43 @@
     return `<div class="empty">${icon("file")}<strong>${titulo}</strong>${texto}</div>`;
   }
 
-  function portada(a) {
-    if (a.fotos && a.fotos.length) {
-      return `<div class="cover"><img src="${esc(a.fotos[0])}" alt="${esc(a.titulo)}" loading="lazy"></div>`;
-    }
-    return `<div class="cover placeholder"><img class="seal" src="assets/img/logo.webp" alt=""><span>${icon("camera")}Fotos próximamente</span></div>`;
-  }
-
-  function tarjetaActividad(a) {
-    return `
-      <a class="act-card" href="galeria.html#${esc(a.id)}">
-        ${portada(a)}
-        <div class="act-body">
-          <time datetime="${esc(a.fecha)}">${fechaLarga(a.fecha)}</time>
-          <h3>${esc(a.titulo)}</h3>
-          <p>${esc([a.modalidad, a.lugar].filter(Boolean).join(" · "))}</p>
-        </div>
-      </a>`;
-  }
-
   /* ---------- Inicio ---------- */
   function inicio() {
-    // Categorías
-    const cats = $("#cats");
-    if (cats) {
-      cats.innerHTML = Object.entries(TIPOS).map(([k, t]) => {
-        const n = PUBS.filter(p => p.tipo === k).length;
+    // Líneas de investigación
+    const lineas = $("#lineas-grid");
+    if (lineas) {
+      lineas.innerHTML = LINEAS.map(l => {
+        const n = PUBS.filter(p => p.linea === l.id).length;
         return `
-          <a class="cat" href="publicaciones.html?tipo=${k}">
-            <span class="cat-icon">${icon(t.icono)}</span>
-            <span class="cat-name">${t.plural}</span>
-            <span class="cat-count">${cuenta(n, "publicación", "publicaciones")}</span>
-            <p>${t.descripcion}</p>
-            <span class="link-more">Ver ${t.plural.toLowerCase()} ${icon("arrow")}</span>
+          <a class="line" href="${urlRepo({ linea: l.id })}">
+            <span class="line-icon">${icon(l.icono)}</span>
+            <span class="line-body">
+              <span class="line-name">${esc(l.nombre)}</span>
+              <span class="line-desc">${esc(l.descripcion)}</span>
+              <span class="line-count">${n ? cuenta(n, "publicación", "publicaciones") : "Próximamente"}</span>
+            </span>
+            <span class="line-go">${icon("arrow")}</span>
           </a>`;
+      }).join("");
+    }
+
+    // Secciones fijas
+    const secs = $("#secciones-grid");
+    if (secs) {
+      secs.innerHTML = SECCIONES_FIJAS.map(s => {
+        const ultima = PUBS.find(p => p.seccion === s.id);
+        return `
+          <article class="feature">
+            <div class="feature-art">${icon(s.icono)}</div>
+            <div class="feature-text">
+              <h3>${esc(s.nombre)}</h3>
+              <p>${esc(s.descripcion)}</p>
+              ${ultima
+                ? `<a class="feature-latest" href="${urlPub(ultima)}"><small>Última entrega</small>${esc(ultima.titulo)}</a>`
+                : `<p class="feature-latest muted"><small>Última entrega</small>La primera entrega llega muy pronto.</p>`}
+              <a class="link-more" href="${urlRepo({ seccion: s.id })}">Ver sección ${icon("arrow")}</a>
+            </div>
+          </article>`;
       }).join("");
     }
 
@@ -228,13 +245,9 @@
     const ultimas = $("#ultimas");
     if (ultimas) {
       ultimas.innerHTML = PUBS.length
-        ? PUBS.slice(0, 3).map(itemPublicacion).join("")
-        : vacio("Muy pronto", "Estamos preparando nuestras primeras publicaciones.");
+        ? PUBS.slice(0, 4).map(itemPublicacion).join("")
+        : vacio("Muy pronto", "Estamos preparando las primeras publicaciones del repositorio.");
     }
-
-    // Actividades recientes
-    const acts = $("#actividades");
-    if (acts) acts.innerHTML = ACTS.slice(0, 3).map(tarjetaActividad).join("");
 
     // Franja "Lo último"
     const ticker = $("#ticker");
@@ -245,10 +258,11 @@
       const mostrar = n => {
         i = (n + items.length) % items.length;
         const p = items[i];
+        const s = seccion(p.seccion);
         link.style.opacity = 0;
         setTimeout(() => {
           link.href = urlPub(p);
-          link.textContent = `${TIPOS[p.tipo] ? TIPOS[p.tipo].singular : ""}: ${p.titulo}`;
+          link.textContent = `${s ? s.corto + ": " : ""}${p.titulo}`;
           link.style.opacity = 1;
         }, 200);
       };
@@ -261,63 +275,87 @@
     }
   }
 
-  /* ---------- Lista de publicaciones ---------- */
-  function publicaciones() {
+  /* ---------- Repositorio ---------- */
+  function repositorio() {
     const params = new URLSearchParams(location.search);
     const estado = {
-      tipo: TIPOS[params.get("tipo")] ? params.get("tipo") : "",
+      seccion: seccion(params.get("seccion")) ? params.get("seccion") : "",
+      linea: linea(params.get("linea")) ? params.get("linea") : "",
       q: params.get("q") || ""
     };
     const tabs = $("#tabs");
+    const select = $("#filtro-linea");
     const input = $("#buscar");
     const lista = $("#lista");
     const info = $("#info");
+    const lateral = $("#lineas-lateral");
+
+    select.innerHTML = `<option value="">Todas las líneas</option>` +
+      LINEAS.map(l => `<option value="${l.id}">${esc(l.nombre)}</option>`).join("");
     input.value = estado.q;
 
-    function pintarTabs() {
-      const opciones = [["", "Todas", PUBS.length]].concat(
-        Object.entries(TIPOS).map(([k, t]) => [k, t.plural, PUBS.filter(p => p.tipo === k).length]));
-      tabs.innerHTML = opciones.map(([k, nombre, n]) =>
-        `<button class="tab" role="tab" data-tipo="${k}" aria-selected="${estado.tipo === k}">${nombre} <span class="n">${n}</span></button>`).join("");
+    function pintarFiltros() {
+      const opciones = [{ id: "", corto: "Todo" }].concat(SECCIONES.map(s => ({ id: s.id, corto: s.id === "articulos" ? "Artículos" : s.corto })));
+      tabs.innerHTML = opciones.map(o => {
+        const n = PUBS.filter(p => !o.id || p.seccion === o.id).length;
+        return `<button class="tab" role="tab" type="button" data-seccion="${o.id}" aria-selected="${estado.seccion === o.id}">${esc(o.corto)} <span class="n">${n}</span></button>`;
+      }).join("");
+      select.value = estado.linea;
+      lateral.innerHTML = LINEAS.map(l => {
+        const n = PUBS.filter(p => p.linea === l.id).length;
+        return `<a href="${urlRepo({ linea: l.id })}" data-linea="${l.id}" class="${estado.linea === l.id ? "on" : ""}">${icon(l.icono)}<span>${esc(l.nombre)}</span><b>${n}</b></a>`;
+      }).join("");
     }
 
     function pintar() {
-      const t = TIPOS[estado.tipo];
-      $("#pubs-title").textContent = t ? t.plural : "Publicaciones";
-      $("#pubs-sub").textContent = t ? t.descripcion : "Artículos, notas y papers elaborados por los miembros del CEJUP.";
-      $("#pubs-crumb").textContent = t ? t.plural : "Publicaciones";
-      document.title = `${t ? t.plural : "Publicaciones"} · CEJUP`;
+      const s = seccion(estado.seccion);
+      const l = linea(estado.linea);
+      let kicker = "Dirección de Investigación", titulo = "Repositorio", sub = "Artículos, análisis de reformas y comentarios de casos elaborados por los miembros del CEJUP.";
+      if (s) { kicker = "Sección"; titulo = s.nombre; sub = s.descripcion; }
+      else if (l) { kicker = "Línea de investigación"; titulo = l.nombre; sub = l.descripcion; }
+      if (s && l) sub = `${s.descripcion} Línea: ${l.nombre}.`;
+      $("#repo-kicker").textContent = kicker;
+      $("#repo-title").textContent = titulo;
+      $("#repo-sub").textContent = sub;
+      $("#repo-crumb").textContent = titulo;
+      document.title = `${titulo} · CEJUP`;
 
       const q = normal(estado.q.trim());
       const res = PUBS.filter(p =>
-        (!estado.tipo || p.tipo === estado.tipo) &&
+        (!estado.seccion || p.seccion === estado.seccion) &&
+        (!estado.linea || p.linea === estado.linea) &&
         (!q || normal([p.titulo, (p.autores || []).join(" "), p.resumen, (p.etiquetas || []).join(" ")].join(" ")).includes(q)));
 
       info.textContent = q
         ? `${cuenta(res.length, "resultado", "resultados")} para “${estado.q.trim()}”`
-        : `${cuenta(res.length, "publicación", "publicaciones")}`;
+        : cuenta(res.length, "publicación", "publicaciones");
       lista.innerHTML = res.length
         ? res.map(itemPublicacion).join("")
-        : (q ? vacio("Sin resultados", "Prueba con otras palabras o revisa otra sección.")
+        : (q ? vacio("Sin resultados", "Prueba con otras palabras o quita algún filtro.")
              : vacio("Aún no hay publicaciones aquí", "Muy pronto compartiremos nuevos trabajos en esta sección."));
 
-      const url = new URLSearchParams();
-      if (estado.tipo) url.set("tipo", estado.tipo);
-      if (estado.q.trim()) url.set("q", estado.q.trim());
-      history.replaceState(null, "", location.pathname + (url.toString() ? "?" + url : "") + location.hash);
+      history.replaceState(null, "", urlRepo({ seccion: estado.seccion, linea: estado.linea, q: estado.q.trim() }) + location.hash);
     }
 
+    const actualizar = () => { pintarFiltros(); pintar(); };
     tabs.addEventListener("click", e => {
       const b = e.target.closest(".tab");
       if (!b) return;
-      estado.tipo = b.dataset.tipo;
-      pintarTabs();
-      pintar();
+      estado.seccion = b.dataset.seccion;
+      actualizar();
+    });
+    select.addEventListener("change", () => { estado.linea = select.value; actualizar(); });
+    lateral.addEventListener("click", e => {
+      const a = e.target.closest("[data-linea]");
+      if (!a) return;
+      e.preventDefault();
+      estado.linea = estado.linea === a.dataset.linea ? "" : a.dataset.linea;
+      actualizar();
+      window.scrollTo({ top: 0, behavior: "smooth" });
     });
     input.addEventListener("input", () => { estado.q = input.value; pintar(); });
 
-    pintarTabs();
-    pintar();
+    actualizar();
     if (location.hash === "#buscar") input.focus();
   }
 
@@ -330,20 +368,21 @@
     if (!p) {
       app.innerHTML = `
         <div class="page-hero compact"><div class="wrap">
-          <nav class="crumbs"><a href="index.html">Inicio</a><span>/</span><a href="publicaciones.html">Publicaciones</a></nav>
+          <nav class="crumbs"><a href="index.html">Inicio</a><span>/</span><a href="repositorio.html">Repositorio</a></nav>
           <h1>No encontramos esta publicación</h1>
         </div></div>
         <section><div class="wrap">
-          ${vacio("El enlace no es válido o la publicación fue retirada", "Revisa la lista completa de publicaciones.")}
-          <p style="text-align:center;margin-top:24px"><a class="btn btn-dark" href="publicaciones.html">Ver publicaciones</a></p>
+          ${vacio("El enlace no es válido o la publicación fue retirada", "Revisa el repositorio completo.")}
+          <p style="text-align:center;margin-top:24px"><a class="btn btn-dark" href="repositorio.html">Ir al repositorio</a></p>
         </div></section>`;
       return;
     }
 
-    const t = TIPOS[p.tipo] || { singular: p.tipo, plural: "Publicaciones" };
+    const s = seccion(p.seccion);
+    const l = linea(p.linea);
     document.title = `${p.titulo} · CEJUP`;
-    const relacionadas = PUBS.filter(x => x.id !== p.id && x.tipo === p.tipo)
-      .concat(PUBS.filter(x => x.id !== p.id && x.tipo !== p.tipo)).slice(0, 4);
+    const relacionadas = PUBS.filter(x => x.id !== p.id && (x.linea === p.linea || x.seccion === p.seccion))
+      .concat(PUBS.filter(x => x.id !== p.id && x.linea !== p.linea && x.seccion !== p.seccion)).slice(0, 4);
     const pdf = p.pdf ? esc(p.pdf) : "";
 
     let documento = "";
@@ -365,14 +404,10 @@
       <div class="page-hero compact"><div class="wrap">
         <nav class="crumbs">
           <a href="index.html">Inicio</a><span>/</span>
-          <a href="publicaciones.html">Publicaciones</a><span>/</span>
-          <a href="publicaciones.html?tipo=${esc(p.tipo)}">${esc(t.plural)}</a>
+          <a href="repositorio.html">Repositorio</a>
+          ${s ? `<span>/</span><a href="${urlRepo({ seccion: s.id })}">${esc(s.nombre)}</a>` : ""}
         </nav>
-        <div class="detail-meta">
-          <span class="badge badge-${esc(p.tipo)}">${esc(t.singular)}</span>
-          ${p.ejemplo ? '<span class="badge badge-ejemplo">Ejemplo</span>' : ""}
-          <time datetime="${esc(p.fecha)}">${fechaLarga(p.fecha)}</time>
-        </div>
+        <div class="detail-meta">${etiquetasPub(p)}</div>
         <h1>${esc(p.titulo)}</h1>
         ${p.autores && p.autores.length ? `<p class="pub-authors">${esc(p.autores.join(", "))}</p>` : ""}
         ${p.etiquetas && p.etiquetas.length ? `<div class="tags">${p.etiquetas.map(e => `<span class="tag">${esc(e)}</span>`).join("")}</div>` : ""}
@@ -380,7 +415,7 @@
 
       <section><div class="wrap detail">
         <div>
-          ${p.ejemplo ? `<div class="notice">${icon("info")}<span>Esta es una publicación de ejemplo para mostrar cómo se verá la sección. Se reemplazará por los trabajos del CEJUP.</span></div>` : ""}
+          ${p.ejemplo ? `<div class="notice">${icon("info")}<span>Esta es una publicación de ejemplo para mostrar cómo se verá el repositorio. Se reemplazará por los trabajos de la Dirección de Investigación.</span></div>` : ""}
           ${p.resumen ? `<div class="abstract"><h2>Resumen</h2><p>${esc(p.resumen)}</p></div>` : ""}
           ${p.contenido ? `<div class="prose">${p.contenido}</div>` : ""}
           ${documento}
@@ -395,11 +430,16 @@
               <button class="btn btn-outline" id="compartir" type="button">${icon("share")}<span>Compartir</span></button>
             </div>
           </div>
+          ${l ? `
+            <a class="side-box line-box" href="${urlRepo({ linea: l.id })}">
+              <span class="line-icon">${icon(l.icono)}</span>
+              <span><small>Línea de investigación</small>${esc(l.nombre)}</span>
+            </a>` : ""}
           ${relacionadas.length ? `
             <div class="side-box">
               <h3>Sigue leyendo</h3>
               <div class="related">
-                ${relacionadas.map(r => `<a href="${urlPub(r)}">${esc(r.titulo)}<small>${esc((TIPOS[r.tipo] || {}).singular || "")} · ${fechaLarga(r.fecha)}</small></a>`).join("")}
+                ${relacionadas.map(r => `<a href="${urlPub(r)}">${esc(r.titulo)}<small>${esc((seccion(r.seccion) || {}).corto || "")} · ${fechaLarga(r.fecha)}</small></a>`).join("")}
               </div>
             </div>` : ""}
         </aside>
@@ -417,88 +457,13 @@
     });
   }
 
-  /* ---------- Galería ---------- */
-  function galeria() {
-    const cont = $("#galeria");
-    cont.innerHTML = ACTS.map(a => {
-      const fotos = a.fotos || [];
-      let media = portada(a);
-      if (fotos.length) {
-        media = `<button class="cover" data-act="${esc(a.id)}" data-i="0" aria-label="Ver fotos: ${esc(a.titulo)}"><img src="${esc(fotos[0])}" alt="${esc(a.titulo)}" loading="lazy"></button>`;
-        if (fotos.length > 1) {
-          media += `<div class="thumbs">${fotos.slice(1, 5).map((f, k) => `
-            <button data-act="${esc(a.id)}" data-i="${k + 1}" aria-label="Foto ${k + 2}">
-              <img src="${esc(f)}" alt="" loading="lazy">
-              ${k === 3 && fotos.length > 5 ? `<span class="more">+${fotos.length - 5}</span>` : ""}
-            </button>`).join("")}</div>`;
-        }
-      }
-      return `
-        <article class="act" id="${esc(a.id)}">
-          <div class="act-media">${media}</div>
-          <div class="act-info">
-            <div class="meta">
-              <span>${icon("calendar")}${fechaLarga(a.fecha)}</span>
-              ${a.modalidad ? `<span>${icon("users")}${esc(a.modalidad)}</span>` : ""}
-              ${a.lugar ? `<span>${icon("pin")}${esc(a.lugar)}</span>` : ""}
-            </div>
-            <h2>${esc(a.titulo)}</h2>
-            ${a.subtitulo ? `<p class="subtitle">${esc(a.subtitulo)}</p>` : ""}
-            ${a.descripcion ? `<p class="desc">${esc(a.descripcion)}</p>` : ""}
-            ${a.ponentes && a.ponentes.length ? `
-              <div class="speakers"><h3>Ponentes</h3><ul>${a.ponentes.map(n => `<li>${esc(n)}</li>`).join("")}</ul></div>` : ""}
-            ${a.instagram ? `<a class="btn btn-outline" href="${esc(a.instagram)}" target="_blank" rel="noopener">${icon("instagram")}Ver en Instagram</a>` : ""}
-          </div>
-        </article>`;
-    }).join("");
-
-    // Visor de fotos
-    const lb = document.createElement("dialog");
-    lb.className = "lightbox";
-    lb.innerHTML = `
-      <img alt="">
-      <button class="lb-btn lb-close" aria-label="Cerrar">${icon("close")}</button>
-      <button class="lb-btn lb-prev" aria-label="Anterior">${icon("chevron-left")}</button>
-      <button class="lb-btn lb-next" aria-label="Siguiente">${icon("chevron-right")}</button>
-      <span class="lb-count"></span>`;
-    document.body.appendChild(lb);
-    let fotos = [], idx = 0;
-    const ver = n => {
-      idx = (n + fotos.length) % fotos.length;
-      $("img", lb).src = fotos[idx];
-      $(".lb-count", lb).textContent = `${idx + 1} / ${fotos.length}`;
-      $(".lb-prev", lb).hidden = $(".lb-next", lb).hidden = fotos.length < 2;
-    };
-    cont.addEventListener("click", e => {
-      const b = e.target.closest("[data-act]");
-      if (!b) return;
-      fotos = (ACTS.find(a => a.id === b.dataset.act) || {}).fotos || [];
-      if (!fotos.length) return;
-      ver(Number(b.dataset.i));
-      lb.showModal();
-    });
-    $(".lb-close", lb).addEventListener("click", () => lb.close());
-    $(".lb-prev", lb).addEventListener("click", () => ver(idx - 1));
-    $(".lb-next", lb).addEventListener("click", () => ver(idx + 1));
-    lb.addEventListener("click", e => { if (e.target === lb) lb.close(); });
-    lb.addEventListener("keydown", e => {
-      if (e.key === "ArrowLeft") ver(idx - 1);
-      if (e.key === "ArrowRight") ver(idx + 1);
-    });
-
-    if (location.hash) {
-      const destino = document.getElementById(decodeURIComponent(location.hash.slice(1)));
-      if (destino) destino.scrollIntoView();
-    }
-  }
-
   /* ---------- Arranque ---------- */
   document.addEventListener("DOMContentLoaded", () => {
     const pagina = document.body.dataset.page;
     sprite();
     cabecera(pagina);
     pie();
-    const init = { inicio, publicaciones, publicacion, galeria }[pagina];
+    const init = { inicio, repositorio, publicacion }[pagina];
     if (init) init();
   });
 })();

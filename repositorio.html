@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Publicaciones · CEJUP</title>
-  <meta name="description" content="Artículos, notas y papers del Círculo de Estudios sobre Justicia Penal (CEJUP).">
+  <title>Repositorio · CEJUP</title>
+  <meta name="description" content="Repositorio de la Dirección de Investigación del CEJUP: artículos por líneas de investigación, reformas del mes, derecho comparado y comentarios de casos.">
   <link rel="icon" type="image/png" href="assets/img/favicon.png">
   <link rel="apple-touch-icon" href="assets/img/icono-192.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,41 +12,43 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
-<body data-page="publicaciones">
+<body data-page="repositorio">
   <header id="site-header"></header>
 
   <main>
     <div class="page-hero">
       <div class="wrap">
-        <nav class="crumbs"><a href="index.html">Inicio</a><span>/</span><span id="pubs-crumb">Publicaciones</span></nav>
-        <h1 id="pubs-title">Publicaciones</h1>
-        <p class="sub" id="pubs-sub">Artículos, notas y papers elaborados por los miembros del CEJUP.</p>
+        <nav class="crumbs"><a href="index.html">Inicio</a><span>/</span><span id="repo-crumb">Repositorio</span></nav>
+        <span class="eyebrow" id="repo-kicker">Dirección de Investigación</span>
+        <h1 id="repo-title">Repositorio</h1>
+        <p class="sub" id="repo-sub">Artículos, análisis de reformas y comentarios de casos elaborados por los miembros del CEJUP.</p>
       </div>
     </div>
 
     <section>
       <div class="wrap pubs-layout">
         <div>
+          <div class="tabs" id="tabs" role="tablist" aria-label="Sección"></div>
           <div class="toolbar">
-            <div class="tabs" id="tabs" role="tablist" aria-label="Tipo de publicación"></div>
+            <label class="select">
+              <span class="sr-only">Línea de investigación</span>
+              <select id="filtro-linea"></select>
+              <svg class="i" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+            </label>
             <label class="search">
-              <span class="sr-only">Buscar publicaciones</span>
+              <span class="sr-only">Buscar en el repositorio</span>
               <svg class="i" aria-hidden="true"><use href="#i-search"/></svg>
               <input id="buscar" type="search" placeholder="Buscar por título, autor o tema" autocomplete="off">
             </label>
           </div>
           <p class="results-info" id="info"></p>
-          <div class="pub-list" id="lista" style="margin-top:14px"></div>
+          <div class="pub-list" id="lista"></div>
         </div>
 
         <aside>
           <div class="side-box">
-            <h3>Tipos de publicación</h3>
-            <dl>
-              <div><dt>Artículos</dt><dd>Análisis e investigación sobre Derecho Penal y Procesal Penal.</dd></div>
-              <div><dt>Notas</dt><dd>Comentarios breves sobre casos, jurisprudencia y temas de actualidad.</dd></div>
-              <div><dt>Papers</dt><dd>Investigaciones académicas extensas, con metodología y referencias.</dd></div>
-            </dl>
+            <h3>Líneas de investigación</h3>
+            <nav class="line-links" id="lineas-lateral" aria-label="Líneas de investigación"></nav>
           </div>
           <div class="side-box dark">
             <h3>¿Quieres publicar?</h3>
@@ -60,8 +62,8 @@
 
   <footer id="contacto"></footer>
 
+  <script src="data/estructura.js"></script>
   <script src="data/publicaciones.js"></script>
-  <script src="data/actividades.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
 </html>

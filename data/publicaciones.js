@@ -1,67 +1,76 @@
 /* =========================================================
-   PUBLICACIONES DEL CEJUP
+   PUBLICACIONES DEL REPOSITORIO
    ---------------------------------------------------------
    Para agregar una publicación, copia un bloque { ... } y
    cambia sus datos:
 
    id         Identificador único, sin espacios ni tildes
               (se usa en el enlace: publicacion.html?id=...)
-   tipo       "articulo", "nota" o "paper"
+   seccion    "articulos", "reformas-del-mes", "peru-mundo"
+              o "caso-en-foco"  (ver data/estructura.js)
+   linea      Línea de investigación: "derecho-procesal-penal",
+              "derecho-penal", "politica-criminal",
+              "derecho-penal-parte-especial", "criminologia"
+              o "compliance"
    titulo     Título completo
    autores    Lista de autores: ["Nombre Apellido", "..."]
    fecha      Fecha de publicación en formato AAAA-MM-DD
    resumen    Uno o dos párrafos que resumen el trabajo
-   etiquetas  Temas: ["Teoría del delito", "Proceso penal"]
-   pdf        Ruta del PDF dentro de la carpeta docs/
-              (ej: "docs/mi-articulo.pdf"). Déjalo "" si no hay.
-   contenido  (Opcional) Texto completo en HTML, útil para notas
+   etiquetas  Temas: ["Prueba", "Proceso penal"]
+   pdf        Ruta del PDF dentro de docs/ (ej: "docs/mi-articulo.pdf").
+              Déjalo "" si no hay PDF.
+   contenido  (Opcional) Texto completo en HTML
    ejemplo    true solo para contenido de muestra; bórralo en
               las publicaciones reales
    ========================================================= */
 
 window.CEJUP_PUBLICACIONES = [
   {
-    id: "ejemplo-imputacion-objetiva",
-    tipo: "articulo",
-    titulo: "La imputación objetiva en los delitos de resultado: criterios y límites",
+    id: "ejemplo-prueba-indiciaria",
+    seccion: "articulos",
+    linea: "derecho-procesal-penal",
+    titulo: "Prueba indiciaria y estándar de condena en el proceso penal peruano",
     autores: ["Autor por confirmar"],
     fecha: "2026-10-15",
     resumen: "Resumen de ejemplo. Aquí aparecerá un párrafo breve con la tesis del artículo, el problema que aborda y sus principales conclusiones.",
-    etiquetas: ["Teoría del delito", "Imputación objetiva"],
+    etiquetas: ["Prueba", "Estándar de prueba"],
     pdf: "",
     ejemplo: true
   },
   {
-    id: "ejemplo-prision-preventiva",
-    tipo: "nota",
-    titulo: "Prisión preventiva: ¿regla o excepción?",
+    id: "ejemplo-reformas-del-mes",
+    seccion: "reformas-del-mes",
+    linea: "politica-criminal",
+    titulo: "Análisis de un proyecto de ley que modifica el Código Penal",
     autores: ["Autor por confirmar"],
-    fecha: "2026-10-08",
-    resumen: "Nota de ejemplo. Las notas son textos breves sobre casos, jurisprudencia o temas de actualidad penal.",
-    etiquetas: ["Proceso penal", "Medidas de coerción"],
+    fecha: "2026-10-10",
+    resumen: "Entrega de ejemplo. Cada mes, esta sección revisará los proyectos de ley en materia penal que se discuten en el Congreso: qué proponen, qué problemas resuelven y qué riesgos presentan.",
+    etiquetas: ["Congreso", "Reforma penal"],
     pdf: "",
-    contenido: "<p>Este es un espacio de ejemplo. Cuando el CEJUP publique una nota, aquí aparecerá su texto completo, que puede leerse directamente en la página sin necesidad de descargar un PDF.</p><p>Las notas pueden incluir subtítulos, citas y enlaces a la jurisprudencia comentada.</p>",
+    contenido: "<p>Este es un espacio de ejemplo. Aquí aparecerá el análisis completo del proyecto de ley, que puede leerse directamente en la página o descargarse en PDF.</p><h2>Qué propone</h2><p>Resumen del proyecto y de los artículos que modifica.</p><h2>Nuestra lectura</h2><p>Comentario crítico desde la dogmática y la política criminal.</p>",
     ejemplo: true
   },
   {
-    id: "ejemplo-prueba-indiciaria",
-    tipo: "paper",
-    titulo: "Prueba indiciaria y estándar de condena en el proceso penal peruano",
-    autores: ["Autor por confirmar", "Coautor por confirmar"],
-    fecha: "2026-09-28",
-    resumen: "Paper de ejemplo. Los papers son investigaciones más extensas, con metodología y referencias. Su texto completo se podrá leer y descargar en PDF.",
-    etiquetas: ["Prueba", "Proceso penal"],
-    pdf: "",
-    ejemplo: true
-  },
-  {
-    id: "ejemplo-principio-lesividad",
-    tipo: "articulo",
-    titulo: "El principio de lesividad frente a la expansión del Derecho Penal",
+    id: "ejemplo-peru-mundo",
+    seccion: "peru-mundo",
+    linea: "compliance",
+    titulo: "Responsabilidad penal de las personas jurídicas: lo que el Perú puede aprender de otras reformas",
     autores: ["Autor por confirmar"],
-    fecha: "2026-09-18",
-    resumen: "Resumen de ejemplo. Aquí aparecerá un párrafo breve con la tesis del artículo, el problema que aborda y sus principales conclusiones.",
-    etiquetas: ["Principios", "Política criminal"],
+    fecha: "2026-10-02",
+    resumen: "Entrega de ejemplo. Esta sección tomará reformas o propuestas legislativas de otros países y analizará cómo podrían encajar en el ordenamiento jurídico peruano.",
+    etiquetas: ["Derecho comparado", "Personas jurídicas"],
+    pdf: "",
+    ejemplo: true
+  },
+  {
+    id: "ejemplo-caso-en-foco",
+    seccion: "caso-en-foco",
+    linea: "derecho-penal",
+    titulo: "Comentario a una sentencia de la Corte Suprema sobre imputación objetiva",
+    autores: ["Autor por confirmar"],
+    fecha: "2026-09-25",
+    resumen: "Entrega de ejemplo. Aquí se comentará un caso concreto: los hechos, lo que resolvió el tribunal y una opinión crítica, con un lenguaje claro y cercano.",
+    etiquetas: ["Jurisprudencia", "Imputación objetiva"],
     pdf: "",
     ejemplo: true
   }
