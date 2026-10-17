@@ -479,35 +479,6 @@
     });
   }
 
-  /* ---------- Nosotros: equipo ---------- */
-  function nosotros() {
-    const equipo = window.CEJUP_EQUIPO || [];
-    const seccion = $("#equipo");
-    if (!seccion || !equipo.length) return;
-    const grupos = [];
-    equipo.forEach(m => {
-      const g = m.grupo || "Equipo";
-      let grupo = grupos.find(x => x.nombre === g);
-      if (!grupo) grupos.push(grupo = { nombre: g, miembros: [] });
-      grupo.miembros.push(m);
-    });
-    const iniciales = n => String(n || "").split(/\s+/).filter(Boolean).slice(0, 2).map(p => p[0].toUpperCase()).join("");
-    $("#equipo-grid").innerHTML = grupos.map(g => `
-      <div class="team-group">
-        ${grupos.length > 1 ? `<h3>${esc(g.nombre)}</h3>` : ""}
-        <div class="team-grid">
-          ${g.miembros.map(m => `
-            <article class="member">
-              <div class="member-photo">${m.foto ? `<img src="${esc(m.foto)}" alt="${esc(m.nombre)}" loading="lazy">` : `<span>${esc(iniciales(m.nombre))}</span>`}</div>
-              <h4>${esc(m.nombre)}</h4>
-              ${m.cargo ? `<p>${esc(m.cargo)}</p>` : ""}
-              ${m.linkedin ? `<a class="member-link" href="${esc(m.linkedin)}" target="_blank" rel="noopener" aria-label="LinkedIn de ${esc(m.nombre)}">${icon("linkedin")}</a>` : ""}
-            </article>`).join("")}
-        </div>
-      </div>`).join("");
-    seccion.hidden = false;
-  }
-
   /* ---------- Detalles de navegación ---------- */
   function comportamientos() {
     // Cabecera compacta al desplazarse y botón para volver arriba
@@ -563,7 +534,7 @@
     });
 
     // Aparición suave de los bloques
-    const bloques = document.querySelectorAll(".sec-head, .member, .card, .line, .sec-card, .side-block, .side-box, .about-grid > *, .mv-block, .goal, .pillar, .org-item, .cta, .quote-band blockquote, .abstract, .prose");
+    const bloques = document.querySelectorAll(".sec-head, .card, .line, .sec-card, .side-block, .side-box, .about-grid > *, .mv-block, .goal, .pillar, .org-item, .cta, .quote-band blockquote, .abstract, .prose");
     if (!("IntersectionObserver" in window)) return;
     document.documentElement.classList.add("js");
     const obs = new IntersectionObserver(entradas => {
@@ -584,7 +555,7 @@
     sprite();
     cabecera(pagina);
     pie();
-    const init = { inicio, repositorio, publicacion, nosotros }[pagina];
+    const init = { inicio, repositorio, publicacion }[pagina];
     if (init) init();
     comportamientos();
   });
