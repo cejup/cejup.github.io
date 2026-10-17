@@ -3,16 +3,16 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CEJUP · Repositorio de la Dirección de Investigación</title>
-  <meta name="description" content="Repositorio de la Dirección de Investigación del Círculo de Estudios sobre Justicia Penal (CEJUP): artículos, reformas del mes, derecho comparado y comentarios de casos.">
-  <meta property="og:title" content="CEJUP · Repositorio de la Dirección de Investigación">
-  <meta property="og:description" content="Artículos, análisis de reformas y comentarios de casos del CEJUP.">
+  <title>CEJUP · Círculo de Estudios sobre Justicia Penal</title>
+  <meta name="description" content="Repositorio del Círculo de Estudios sobre Justicia Penal (CEJUP) de la Universidad Científica del Sur: artículos, reformas del mes, derecho comparado y periodismo jurídico.">
+  <meta property="og:title" content="CEJUP · Círculo de Estudios sobre Justicia Penal">
+  <meta property="og:description" content="Artículos, reformas del mes, derecho comparado y periodismo jurídico del CEJUP.">
   <meta property="og:image" content="assets/img/logo.png">
   <link rel="icon" type="image/png" href="assets/img/favicon.png">
   <link rel="apple-touch-icon" href="assets/img/icono-192.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Cormorant+Garamond:ital,wght@1,500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body data-page="inicio">
@@ -21,87 +21,123 @@
   <main>
     <div class="hero">
       <div class="wrap">
-        <div>
-          <span class="eyebrow">Dirección de Investigación · CEJUP</span>
-          <h1>Investigamos el Derecho Penal <em>y lo compartimos.</em></h1>
-          <p class="lead">Este es el repositorio del Círculo de Estudios sobre Justicia Penal: artículos por líneas de investigación, análisis de las reformas que se discuten en el Congreso, derecho comparado y comentarios de casos.</p>
+        <div class="hero-text">
+          <p class="maxim">Nullum crimen, nulla poena sine lege <small>Principio de legalidad</small></p>
+          <h1>Círculo de Estudios <span class="accent">sobre Justicia Penal</span></h1>
+          <p class="lead">El repositorio del CEJUP: artículos por líneas de investigación, análisis de las reformas del mes, derecho comparado y periodismo jurídico, elaborados por estudiantes de Derecho de la Universidad Científica del Sur.</p>
           <div class="actions">
-            <a class="btn btn-silver" href="repositorio.html">Explorar el repositorio <svg class="i" aria-hidden="true"><use href="#i-arrow"/></svg></a>
-            <a class="btn btn-outline-light" href="#lineas">Líneas de investigación</a>
+            <a class="btn btn-light" href="repositorio.html">Explorar el repositorio</a>
+            <a class="btn btn-ghost" href="#lineas">Líneas de investigación</a>
+          </div>
+          <div class="stats">
+            <div class="stat"><b id="stat-lineas">06</b><span>Líneas de investigación</span></div>
+            <div class="stat"><b id="stat-secciones">03</b><span>Secciones</span></div>
+            <div class="stat"><b>2026</b><span>Año de fundación</span></div>
           </div>
         </div>
-        <div class="hero-seal">
-          <img src="assets/img/logo.webp" alt="Sello del CEJUP" width="480" height="480">
-        </div>
+      </div>
+      <figure class="hero-photo">
+        <img src="assets/img/equipo.jpg" alt="Integrantes del CEJUP" width="1280" height="720">
+        <figcaption>Equipo CEJUP</figcaption>
+      </figure>
+      <div class="hero-badge">
+        <svg class="badge-ring" viewBox="0 0 200 200" aria-hidden="true">
+          <defs><path id="anillo" d="M100,100 m-84,0 a84,84 0 1,1 168,0 a84,84 0 1,1 -168,0"/></defs>
+          <circle cx="100" cy="100" r="99"/>
+          <text><textPath href="#anillo" textLength="520" lengthAdjust="spacing">REPOSITORIO · CEJUP · UCSUR · DERECHO PENAL · </textPath></text>
+        </svg>
+        <img src="assets/img/logo.webp" alt="" width="164" height="164">
       </div>
     </div>
 
-    <div class="ticker" id="ticker" hidden>
-      <div class="wrap">
-        <span class="tk-label">Lo último</span>
-        <a id="tk-link" href="repositorio.html"></a>
-        <div class="tk-ctrl">
-          <button id="tk-prev" type="button" aria-label="Anterior"><svg class="i" aria-hidden="true"><use href="#i-chevron-left"/></svg></button>
-          <button id="tk-next" type="button" aria-label="Siguiente"><svg class="i" aria-hidden="true"><use href="#i-chevron-right"/></svg></button>
-        </div>
-      </div>
+    <div class="marquee" aria-label="Líneas de investigación">
+      <div class="marquee-track" id="marquee"></div>
     </div>
 
-    <section id="lineas">
+    <section id="destacados" data-word="Repositorio">
+      <div class="wrap with-side">
+        <div>
+          <div class="sec-head">
+            <div>
+              <span class="eyebrow">Repositorio</span>
+              <h2>Publicaciones destacadas</h2>
+            </div>
+            <a class="more" href="repositorio.html">Ver todo el repositorio</a>
+          </div>
+          <div class="cards" id="destacadas"></div>
+        </div>
+        <aside class="side">
+          <div class="side-block">
+            <h3>Líneas de investigación</h3>
+            <nav class="side-list" id="side-lineas" aria-label="Líneas de investigación"></nav>
+          </div>
+          <div class="side-block">
+            <h3>Secciones</h3>
+            <nav class="side-list" id="side-secciones" aria-label="Secciones"></nav>
+          </div>
+          <div class="side-box dark">
+            <h3>Síguenos</h3>
+            <p>Convocatorias, eventos y novedades del Círculo.</p>
+            <div class="social-row">
+              <a href="https://www.instagram.com/cejupucsur/" target="_blank" rel="noopener" aria-label="Instagram"><svg class="i" aria-hidden="true"><use href="#i-instagram"/></svg></a>
+              <a href="https://www.linkedin.com/company/cejupucsur/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg class="i" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
+              <a href="https://wa.me/51969100823" target="_blank" rel="noopener" aria-label="WhatsApp"><svg class="i" aria-hidden="true"><use href="#i-whatsapp"/></svg></a>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="lines-band" id="lineas" data-word="Líneas">
       <div class="wrap">
         <div class="sec-head">
           <div>
             <span class="eyebrow">Líneas de investigación</span>
-            <h2>Los temas que investigamos</h2>
-            <p>Cada artículo del repositorio pertenece a una de nuestras líneas. Elige una para ver sus trabajos.</p>
+            <h2>Los ejes de nuestra investigación</h2>
+            <p>Cada artículo del repositorio pertenece a una de nuestras seis líneas. Elige una para ver sus trabajos.</p>
           </div>
         </div>
         <div class="lines" id="lineas-grid"></div>
       </div>
     </section>
 
-    <section class="bg-plomo" id="secciones">
+    <section id="secciones" data-word="Secciones">
       <div class="wrap">
         <div class="sec-head">
           <div>
             <span class="eyebrow">Secciones</span>
-            <h2>Más allá del artículo</h2>
-            <p>Tres formatos fijos para seguir de cerca lo que pasa en el Derecho Penal, aquí y en el mundo.</p>
+            <h2>Formatos de análisis</h2>
+            <p>Tres secciones permanentes para seguir el Derecho Penal en el Perú y en el mundo.</p>
           </div>
         </div>
-        <div class="features" id="secciones-grid"></div>
+        <div class="secs" id="secciones-grid"></div>
       </div>
     </section>
 
-    <section>
+    <section class="quote-band">
       <div class="wrap">
-        <div class="sec-head">
-          <div>
-            <span class="eyebrow">Repositorio</span>
-            <h2>Publicaciones recientes</h2>
-          </div>
-          <a class="link-more" href="repositorio.html">Ver todo el repositorio <svg class="i" aria-hidden="true"><use href="#i-arrow"/></svg></a>
-        </div>
-        <div class="pub-list" id="ultimas"></div>
+        <span class="quote-mark" aria-hidden="true">“</span>
+        <blockquote>Posicionarnos como un referente académico nacional en el estudio, investigación y debate de las ciencias penales.</blockquote>
+        <cite>Visión del CEJUP</cite>
       </div>
     </section>
 
-    <section class="bg-plomo">
+    <section class="bg-plomo" data-word="CEJUP">
       <div class="wrap about-grid">
-        <div>
-          <span class="eyebrow">La Dirección de Investigación</span>
-          <h2>Quiénes están detrás</h2>
-          <p class="big">La Dirección de Investigación del CEJUP promueve y coordina los proyectos de análisis jurídico y las publicaciones del Círculo.</p>
-          <ul class="checks">
-            <li>Diseña y lidera proyectos en temas de relevancia penal.</li>
-            <li>Coordina la publicación de resultados en revistas y en este repositorio.</li>
-            <li>Cuida la calidad, originalidad y pertinencia de cada trabajo.</li>
-            <li>Fomenta que todos los miembros investiguen.</li>
-          </ul>
-          <p style="margin-top:24px"><a class="link-more" href="nosotros.html">Conoce al CEJUP <svg class="i" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
-        </div>
         <div class="seal-panel">
-          <img src="assets/img/logo.webp" alt="" width="480" height="480" loading="lazy">
+          <img src="assets/img/logo.webp" alt="Sello del CEJUP" width="480" height="480" loading="lazy">
+        </div>
+        <div>
+          <span class="eyebrow">Sobre el CEJUP</span>
+          <h2>Un círculo de estudiantes de Derecho</h2>
+          <p class="big">El Círculo de Estudios sobre Justicia Penal es una organización estudiantil autónoma de la carrera de Derecho de la Universidad Científica del Sur, constituida en 2026.</p>
+          <ul class="checks">
+            <li>Actividades académicas y prácticas en Derecho Penal y Procesal Penal.</li>
+            <li>Investigación jurídica en temas penales relevantes y de actualidad.</li>
+            <li>Redes con instituciones y profesionales especializados.</li>
+            <li>Una cultura de ética, responsabilidad y excelencia.</li>
+          </ul>
+          <p style="margin-top:28px"><a class="more" href="nosotros.html">Conoce más sobre nosotros</a></p>
         </div>
       </div>
     </section>
@@ -114,8 +150,8 @@
             <p>Si eres miembro del CEJUP y quieres publicar en alguna línea o sección, escríbenos.</p>
           </div>
           <div class="actions">
-            <a class="btn btn-silver" href="https://wa.me/51969100823" target="_blank" rel="noopener"><svg class="i" aria-hidden="true"><use href="#i-whatsapp"/></svg>WhatsApp</a>
-            <a class="btn btn-outline-light" href="https://www.instagram.com/cejupucsur/" target="_blank" rel="noopener"><svg class="i" aria-hidden="true"><use href="#i-instagram"/></svg>Instagram</a>
+            <a class="btn btn-light" href="https://wa.me/51969100823" target="_blank" rel="noopener"><svg class="i" aria-hidden="true"><use href="#i-whatsapp"/></svg>WhatsApp</a>
+            <a class="btn btn-ghost" href="https://www.instagram.com/cejupucsur/" target="_blank" rel="noopener"><svg class="i" aria-hidden="true"><use href="#i-instagram"/></svg>Instagram</a>
           </div>
         </div>
       </div>

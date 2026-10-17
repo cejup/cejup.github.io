@@ -1,5 +1,5 @@
 /* =========================================================
-   CEJUP · Repositorio de la Dirección de Investigación
+   CEJUP · Círculo de Estudios sobre Justicia Penal
    - Cabecera, menú y pie de página comunes
    - Líneas, secciones y publicaciones (desde data/*.js)
    ========================================================= */
@@ -90,7 +90,7 @@
           <a href="${SITIO.linkedin}" target="_blank" rel="noopener" aria-label="LinkedIn">${icon("linkedin")}</a>
           <a href="${SITIO.whatsapp}" target="_blank" rel="noopener" aria-label="WhatsApp">${icon("whatsapp")}</a>
         </div>
-        <span class="uni">Dirección de Investigación · Universidad Científica del Sur</span>
+        <span class="uni">Universidad Científica del Sur · Carrera de Derecho</span>
       </div></div>`);
 
     h.className = "site-header";
@@ -144,7 +144,7 @@
             <img src="assets/img/logo.webp" alt="" width="60" height="60">
             <span><b>CEJUP</b><small>Círculo de Estudios sobre Justicia Penal</small></span>
           </a>
-          <p class="about">Repositorio de la Dirección de Investigación del CEJUP, organización estudiantil de la carrera de Derecho de la Universidad Científica del Sur.</p>
+          <p class="about">Repositorio del Círculo de Estudios sobre Justicia Penal, organización estudiantil de la carrera de Derecho de la Universidad Científica del Sur.</p>
         </div>
         <div>
           <h4>Líneas</h4>
@@ -166,6 +166,7 @@
           </ul>
         </div>
       </div>
+      <div class="foot-word" aria-hidden="true">CEJUP</div>
       <div class="foot-bottom"><div class="wrap">
         <span>© ${new Date().getFullYear()} CEJUP · Círculo de Estudios sobre Justicia Penal</span>
         <span>Universidad Científica del Sur · Lima, Perú</span>
@@ -183,26 +184,80 @@
       <time datetime="${esc(p.fecha)}">${fechaLarga(p.fecha)}</time>`;
   }
 
-  function itemPublicacion(p) {
+  function itemPublicacion(p, destacada) {
+    const s = seccion(p.seccion);
+    const l = linea(p.linea);
+    const kicker = [s ? s.corto : "", l ? l.nombre : ""].filter(Boolean).join(" · ");
     return `
-      <article class="pub">
-        <div class="pub-meta">${etiquetasPub(p)}</div>
-        <h3 class="pub-title"><a href="${urlPub(p)}">${esc(p.titulo)}</a></h3>
-        ${p.autores && p.autores.length ? `<p class="pub-authors">${esc(p.autores.join(", "))}</p>` : ""}
-        ${p.resumen ? `<p class="pub-abstract">${esc(p.resumen)}</p>` : ""}
-        <div class="pub-actions">
-          <a class="chip-btn" href="${urlPub(p)}">${icon("arrow")}Leer</a>
-          ${p.pdf ? `<a class="chip-btn" href="${esc(p.pdf)}" target="_blank" rel="noopener">${icon("file")}PDF</a>` : ""}
+      <article class="card${destacada ? " featured" : ""}">
+        <div class="card-body">
+          <span class="card-kicker">${esc(kicker)}</span>
+          <h3><a href="${urlPub(p)}">${esc(p.titulo)}</a></h3>
+          ${p.autores && p.autores.length ? `<p class="card-authors">${esc(p.autores.join(", "))}</p>` : ""}
+          ${p.resumen ? `<p class="card-text">${esc(p.resumen)}</p>` : ""}
+          <a class="more" href="${urlPub(p)}">Leer más</a>
+        </div>
+        <div class="card-foot">
+          <time datetime="${esc(p.fecha)}">${fechaLarga(p.fecha)}</time>
+          ${p.ejemplo ? '<span class="badge badge-ejemplo">Ejemplo</span>' : ""}
+          ${p.pdf ? `<a class="pdf" href="${esc(p.pdf)}" target="_blank" rel="noopener">${icon("file")}PDF</a>` : ""}
         </div>
       </article>`;
   }
 
+  function listaLineas(activa) {
+    return LINEAS.map(l => {
+      const n = PUBS.filter(p => p.linea === l.id).length;
+      return `<a href="${urlRepo({ linea: l.id })}" data-linea="${l.id}" class="${activa === l.id ? "on" : ""}">${icon(l.icono)}<span>${esc(l.nombre)}</span><b>${n}</b></a>`;
+    }).join("");
+  }
+
+  function listaSecciones() {
+    return SECCIONES.map(s => {
+      const n = PUBS.filter(p => p.seccion === s.id).length;
+      return `<a href="${urlRepo({ seccion: s.id })}">${icon(s.icono)}<span>${esc(s.nombre)}</span><b>${n}</b></a>`;
+    }).join("");
+  }
+
   function vacio(titulo, texto) {
-    return `<div class="empty">${icon("file")}<strong>${titulo}</strong>${texto}</div>`;
+    return `<div class="empty"><img class="empty-seal" src="assets/img/logo.webp" alt=""><strong>${titulo}</strong>${texto}</div>`;
   }
 
   /* ---------- Inicio ---------- */
   function inicio() {
+    // Cifras de la portada
+    const dos = n => String(n).padStart(2, "0");
+    if ($("#stat-lineas")) $("#stat-lineas").textContent = dos(LINEAS.length);
+    if ($("#stat-secciones")) $("#stat-secciones").textContent = dos(SECCIONES_FIJAS.length);
+
+    // Publicaciones destacadas
+    const dest = $("#destacadas");
+    if (dest) {
+      dest.innerHTML = PUBS.length
+        ? PUBS.slice(0, 3).map((p, i) => itemPublicacion(p, i === 0)).join("")
+        : `
+          <div class="coming">
+            <img class="coming-seal" src="assets/img/logo.webp" alt="">
+            <span class="eyebrow">Próximamente</span>
+            <h3>El repositorio del CEJUP abre sus puertas</h3>
+            <p>Muy pronto publicaremos aquí los primeros artículos de investigación, las reformas del mes, los análisis de derecho comparado y las piezas de periodismo jurídico del Círculo.</p>
+            <div class="coming-tags">
+              ${SECCIONES.map(s => `<a href="${urlRepo({ seccion: s.id })}">${icon(s.icono)}${esc(s.nombre)}</a>`).join("")}
+            </div>
+          </div>`;
+    }
+    const sl = $("#side-lineas");
+    if (sl) sl.innerHTML = listaLineas();
+    const ss = $("#side-secciones");
+    if (ss) ss.innerHTML = listaSecciones();
+
+    // Marquesina con las líneas
+    const marquee = $("#marquee");
+    if (marquee) {
+      const items = LINEAS.map(l => `<a class="marquee-item" href="${urlRepo({ linea: l.id })}">${esc(l.nombre)}</a>`).join("");
+      marquee.innerHTML = items + items.replace(/<a /g, '<a tabindex="-1" aria-hidden="true" ');
+    }
+
     // Líneas de investigación
     const lineas = $("#lineas-grid");
     if (lineas) {
@@ -210,8 +265,7 @@
         const n = PUBS.filter(p => p.linea === l.id).length;
         return `
           <a class="line" href="${urlRepo({ linea: l.id })}">
-            <span class="line-icon">${icon(l.icono)}</span>
-            <span class="line-body">
+            <span>
               <span class="line-name">${esc(l.nombre)}</span>
               <span class="line-desc">${esc(l.descripcion)}</span>
               <span class="line-count">${n ? cuenta(n, "publicación", "publicaciones") : "Próximamente"}</span>
@@ -224,54 +278,22 @@
     // Secciones fijas
     const secs = $("#secciones-grid");
     if (secs) {
-      secs.innerHTML = SECCIONES_FIJAS.map(s => {
+      const romanos = ["I", "II", "III", "IV", "V", "VI"];
+      secs.innerHTML = SECCIONES_FIJAS.map((s, k) => {
         const ultima = PUBS.find(p => p.seccion === s.id);
         return `
-          <article class="feature">
-            <div class="feature-art">${icon(s.icono)}</div>
-            <div class="feature-text">
-              <h3>${esc(s.nombre)}</h3>
-              <p>${esc(s.descripcion)}</p>
-              ${ultima
-                ? `<a class="feature-latest" href="${urlPub(ultima)}"><small>Última entrega</small>${esc(ultima.titulo)}</a>`
-                : `<p class="feature-latest muted"><small>Última entrega</small>La primera entrega llega muy pronto.</p>`}
-              <a class="link-more" href="${urlRepo({ seccion: s.id })}">Ver sección ${icon("arrow")}</a>
+          <article class="sec-card">
+            <span class="numeral" aria-hidden="true">${romanos[k] || ""}</span>
+            ${icon(s.icono)}
+            <h3>${esc(s.nombre)}</h3>
+            <p>${esc(s.descripcion)}</p>
+            <div class="sec-latest">
+              <small>Última entrega</small>
+              ${ultima ? `<a href="${urlPub(ultima)}">${esc(ultima.titulo)}</a>` : "<span>La primera entrega llega muy pronto.</span>"}
             </div>
+            <a class="more" href="${urlRepo({ seccion: s.id })}">Ver sección</a>
           </article>`;
       }).join("");
-    }
-
-    // Últimas publicaciones
-    const ultimas = $("#ultimas");
-    if (ultimas) {
-      ultimas.innerHTML = PUBS.length
-        ? PUBS.slice(0, 4).map(itemPublicacion).join("")
-        : vacio("Muy pronto", "Estamos preparando las primeras publicaciones del repositorio.");
-    }
-
-    // Franja "Lo último"
-    const ticker = $("#ticker");
-    const items = PUBS.slice(0, 5);
-    if (ticker && items.length) {
-      const link = $("#tk-link");
-      let i = 0, timer;
-      const mostrar = n => {
-        i = (n + items.length) % items.length;
-        const p = items[i];
-        const s = seccion(p.seccion);
-        link.style.opacity = 0;
-        setTimeout(() => {
-          link.href = urlPub(p);
-          link.textContent = `${s ? s.corto + ": " : ""}${p.titulo}`;
-          link.style.opacity = 1;
-        }, 200);
-      };
-      const auto = () => { clearInterval(timer); timer = setInterval(() => mostrar(i + 1), 6000); };
-      $("#tk-prev").addEventListener("click", () => { mostrar(i - 1); auto(); });
-      $("#tk-next").addEventListener("click", () => { mostrar(i + 1); auto(); });
-      ticker.hidden = false;
-      mostrar(0);
-      if (items.length > 1) auto();
     }
   }
 
@@ -301,16 +323,13 @@
         return `<button class="tab" role="tab" type="button" data-seccion="${o.id}" aria-selected="${estado.seccion === o.id}">${esc(o.corto)} <span class="n">${n}</span></button>`;
       }).join("");
       select.value = estado.linea;
-      lateral.innerHTML = LINEAS.map(l => {
-        const n = PUBS.filter(p => p.linea === l.id).length;
-        return `<a href="${urlRepo({ linea: l.id })}" data-linea="${l.id}" class="${estado.linea === l.id ? "on" : ""}">${icon(l.icono)}<span>${esc(l.nombre)}</span><b>${n}</b></a>`;
-      }).join("");
+      lateral.innerHTML = listaLineas(estado.linea);
     }
 
     function pintar() {
       const s = seccion(estado.seccion);
       const l = linea(estado.linea);
-      let kicker = "Dirección de Investigación", titulo = "Repositorio", sub = "Artículos, análisis de reformas y comentarios de casos elaborados por los miembros del CEJUP.";
+      let kicker = "CEJUP", titulo = "Repositorio", sub = "Artículos, reformas del mes, derecho comparado y periodismo jurídico elaborados por los miembros del CEJUP.";
       if (s) { kicker = "Sección"; titulo = s.nombre; sub = s.descripcion; }
       else if (l) { kicker = "Línea de investigación"; titulo = l.nombre; sub = l.descripcion; }
       if (s && l) sub = `${s.descripcion} Línea: ${l.nombre}.`;
@@ -332,9 +351,12 @@
       lista.innerHTML = res.length
         ? res.map(itemPublicacion).join("")
         : (q ? vacio("Sin resultados", "Prueba con otras palabras o quita algún filtro.")
-             : vacio("Aún no hay publicaciones aquí", "Muy pronto compartiremos nuevos trabajos en esta sección."));
+             : PUBS.length ? vacio("Aún no hay publicaciones aquí", "Muy pronto compartiremos nuevos trabajos en esta sección.")
+             : vacio("El repositorio está por estrenarse", "Muy pronto publicaremos aquí los primeros trabajos del CEJUP."));
 
-      history.replaceState(null, "", urlRepo({ seccion: estado.seccion, linea: estado.linea, q: estado.q.trim() }) + location.hash);
+      try {
+        history.replaceState(null, "", urlRepo({ seccion: estado.seccion, linea: estado.linea, q: estado.q.trim() }) + location.hash);
+      } catch (_) { /* al abrir el archivo localmente el navegador no permite cambiar la URL */ }
     }
 
     const actualizar = () => { pintarFiltros(); pintar(); };
@@ -413,21 +435,21 @@
         ${p.etiquetas && p.etiquetas.length ? `<div class="tags">${p.etiquetas.map(e => `<span class="tag">${esc(e)}</span>`).join("")}</div>` : ""}
       </div></div>
 
-      <section><div class="wrap detail">
+      <section><div class="wrap with-side">
         <div>
-          ${p.ejemplo ? `<div class="notice">${icon("info")}<span>Esta es una publicación de ejemplo para mostrar cómo se verá el repositorio. Se reemplazará por los trabajos de la Dirección de Investigación.</span></div>` : ""}
+          ${p.ejemplo ? `<div class="notice">${icon("info")}<span>Esta es una publicación de ejemplo para mostrar cómo se verá el repositorio. Se reemplazará por los trabajos del CEJUP.</span></div>` : ""}
           ${p.resumen ? `<div class="abstract"><h2>Resumen</h2><p>${esc(p.resumen)}</p></div>` : ""}
           ${p.contenido ? `<div class="prose">${p.contenido}</div>` : ""}
           ${documento}
         </div>
-        <aside>
+        <aside class="side">
           <div class="side-box">
             <h3>Acciones</h3>
             <div class="actions-box">
               ${p.pdf ? `
                 <a class="btn btn-dark" href="${pdf}" download>${icon("download")}Descargar PDF</a>
-                <a class="btn btn-outline" href="${pdf}" target="_blank" rel="noopener">${icon("external")}Abrir en otra pestaña</a>` : ""}
-              <button class="btn btn-outline" id="compartir" type="button">${icon("share")}<span>Compartir</span></button>
+                <a class="btn btn-line" href="${pdf}" target="_blank" rel="noopener">${icon("external")}Abrir en otra pestaña</a>` : ""}
+              <button class="btn btn-line" id="compartir" type="button">${icon("share")}<span>Compartir</span></button>
             </div>
           </div>
           ${l ? `
@@ -457,6 +479,76 @@
     });
   }
 
+  /* ---------- Detalles de navegación ---------- */
+  function comportamientos() {
+    // Cabecera compacta al desplazarse y botón para volver arriba
+    const h = $("#site-header");
+    const arriba = document.createElement("button");
+    arriba.className = "to-top";
+    arriba.type = "button";
+    arriba.setAttribute("aria-label", "Volver arriba");
+    arriba.innerHTML = icon("arrow");
+    arriba.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+    document.body.appendChild(arriba);
+    const alDesplazar = () => {
+      const y = window.scrollY;
+      if (h) h.classList.toggle("scrolled", y > 60);
+      arriba.classList.toggle("show", y > 700);
+    };
+    const barra = document.createElement("div");
+    barra.className = "progress";
+    document.body.appendChild(barra);
+    const progreso = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      barra.style.setProperty("--p", max > 0 ? Math.min(window.scrollY / max, 1) : 0);
+    };
+    window.addEventListener("scroll", () => { alDesplazar(); progreso(); }, { passive: true });
+    alDesplazar();
+    progreso();
+
+    // Brillo que sigue al cursor en la portada
+    const hero = $(".hero");
+    if (hero && window.matchMedia("(pointer: fine)").matches) {
+      hero.addEventListener("pointermove", e => {
+        const r = hero.getBoundingClientRect();
+        hero.style.setProperty("--mx", `${e.clientX - r.left}px`);
+        hero.style.setProperty("--my", `${e.clientY - r.top}px`);
+      });
+    }
+
+    // Cifras que suben
+    const quieto = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    document.querySelectorAll(".stat b").forEach(b => {
+      const fin = parseInt(b.textContent, 10);
+      if (!fin || quieto) return;
+      const desde = fin > 100 ? fin - 30 : 0;
+      const ancho = b.textContent.length;
+      const t0 = performance.now();
+      const paso = t => {
+        const k = Math.min((t - t0) / 1400, 1);
+        const v = Math.round(desde + (fin - desde) * (1 - Math.pow(1 - k, 3)));
+        b.textContent = String(v).padStart(ancho, "0");
+        if (k < 1) requestAnimationFrame(paso);
+      };
+      requestAnimationFrame(paso);
+    });
+
+    // Aparición suave de los bloques
+    const bloques = document.querySelectorAll(".sec-head, .card, .line, .sec-card, .side-block, .side-box, .about-grid > *, .mv-block, .goal, .pillar, .org-item, .cta, .quote-band blockquote, .abstract, .prose");
+    if (!("IntersectionObserver" in window)) return;
+    document.documentElement.classList.add("js");
+    const obs = new IntersectionObserver(entradas => {
+      entradas.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add("in"); obs.unobserve(e.target); }
+      });
+    }, { rootMargin: "0px 0px -8% 0px" });
+    bloques.forEach((b, i) => {
+      b.setAttribute("data-reveal", "");
+      b.style.transitionDelay = `${(i % 3) * 80}ms`;
+      obs.observe(b);
+    });
+  }
+
   /* ---------- Arranque ---------- */
   document.addEventListener("DOMContentLoaded", () => {
     const pagina = document.body.dataset.page;
@@ -465,5 +557,6 @@
     pie();
     const init = { inicio, repositorio, publicacion }[pagina];
     if (init) init();
+    comportamientos();
   });
 })();

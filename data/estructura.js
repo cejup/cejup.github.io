@@ -1,6 +1,6 @@
 /* =========================================================
    ESTRUCTURA DEL REPOSITORIO
-   Dirección de Investigación del CEJUP
+   Círculo de Estudios sobre Justicia Penal (CEJUP)
    ---------------------------------------------------------
    Aquí se definen las líneas de investigación y las
    secciones. Para renombrar una sección o cambiar su
@@ -73,10 +73,10 @@ window.CEJUP_SECCIONES = [
     descripcion: "Reformas y propuestas legislativas de otros países, y cómo podrían leerse desde el ordenamiento jurídico peruano."
   },
   {
-    id: "caso-en-foco",
-    nombre: "Caso en foco",
-    corto: "Caso en foco",
+    id: "periodismo",
+    nombre: "Periodismo",
+    corto: "Periodismo",
     icono: "newspaper",
-    descripcion: "Comentarios críticos sobre casos concretos y temas de actualidad, con una mirada cercana al periodismo jurídico."
+    descripcion: "Comentarios sobre casos concretos y temas relevantes de la actualidad penal, con un enfoque periodístico."
   }
 ];

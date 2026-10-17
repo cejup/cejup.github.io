@@ -1,6 +1,6 @@
-# CEJUP · Repositorio de la Dirección de Investigación
+# CEJUP · Círculo de Estudios sobre Justicia Penal
 
-Sitio web del repositorio de la Dirección de Investigación del Círculo de Estudios sobre Justicia Penal (CEJUP), organización estudiantil de la carrera de Derecho de la Universidad Científica del Sur.
+Repositorio web del Círculo de Estudios sobre Justicia Penal (CEJUP), organización estudiantil de la carrera de Derecho de la Universidad Científica del Sur.
 
 HTML, CSS y JavaScript puros: no necesita instalar nada. Para verlo en local basta con abrir `index.html` en el navegador (o usar la extensión *Live Server* de VS Code).
 
@@ -13,7 +13,7 @@ Derecho Procesal Penal · Derecho Penal · Política Criminal · Derecho Penal �
 - *Artículos de investigación*: trabajos por línea de investigación.
 - *Las reformas del mes*: análisis de proyectos de ley y de lo que se discute en el Congreso.
 - *Del Perú para el mundo, del mundo para el Perú*: reformas de otros países leídas desde el ordenamiento peruano.
-- *Caso en foco*: comentarios de casos concretos, con mirada periodística.
+- *Periodismo*: comentarios sobre casos concretos y temas de actualidad, con enfoque periodístico.
 
 Los nombres y descripciones se editan en `data/estructura.js`.
 
@@ -41,7 +41,7 @@ assets/img/            Logo y foto del equipo
 
 La publicación aparece sola en Inicio, en su sección, en su línea y con su propia página.
 
-> Las publicaciones marcadas con `ejemplo: true` son de muestra: hay que borrarlas cuando lleguen las reales.
+Mientras no haya publicaciones, el sitio muestra un aviso de «Próximamente» en cada sección.
 
 ## Publicación
 
