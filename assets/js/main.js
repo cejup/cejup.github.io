@@ -13,7 +13,8 @@
     telefonos: [
       { numero: "51929340631", texto: "+51 929 340 631" },
       { numero: "51997985282", texto: "+51 997 985 282" }
-    ]
+    ],
+    correo: "cejupucsur@gmail.com"
   };
 
   const LINEAS = window.CEJUP_LINEAS || [];
@@ -55,6 +56,7 @@
     external: '<path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>',
     share: '<circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="M8.2 10.8l7.6-4.4M8.2 13.2l7.6 4.4"/>',
     info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8v.1"/>',
+    mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6.5l8.5 6 8.5-6"/>',
     target: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>',
     eye: '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
     formacion: '<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/>',
@@ -165,7 +167,8 @@
           <ul>
             <li><a href="${SITIO.instagram}" target="_blank" rel="noopener">${icon("instagram")}Instagram</a></li>
             <li><a href="${SITIO.linkedin}" target="_blank" rel="noopener">${icon("linkedin")}LinkedIn</a></li>
-            ${SITIO.telefonos.map(t => `<li><a href="https://wa.me/${t.numero}" target="_blank" rel="noopener">${icon("whatsapp")}${t.texto}</a></li>`).join("")}
+            <li class="tels">${icon("whatsapp")}<span>${SITIO.telefonos.map(t => `<a href="https://wa.me/${t.numero}" target="_blank" rel="noopener">${t.texto}</a>`).join("<i>·</i>")}</span></li>
+            <li><a href="mailto:${SITIO.correo}">${icon("mail")}${SITIO.correo}</a></li>
           </ul>
         </div>
       </div>
