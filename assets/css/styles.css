@@ -164,9 +164,13 @@ button { font: inherit; }
 .values-line i { font-style: normal; opacity: .5; }
 .hero .lead { margin-top: 26px; max-width: 48ch; font-size: 17.5px; color: #c3c9d6; }
 .hero .actions { margin-top: 38px; display: flex; flex-wrap: wrap; gap: 14px; }
-.hero-photo {
-  position: absolute; z-index: 1; top: 76px; right: 0; bottom: 0;
+.hero-media {
+  position: absolute; z-index: 1; right: 0; bottom: 0;
   left: calc(max(0px, (100% - var(--wrap)) / 2) + 28px + (min(100%, var(--wrap)) - 56px) * .43 + 20px);
+  aspect-ratio: 3 / 2; max-height: calc(100% - 90px);
+}
+.hero-photo {
+  position: absolute; inset: 0; margin: 0;
   border-top-left-radius: 140px; overflow: hidden; background: var(--navy-800);
 }
 .hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 58% 40%; border-top-left-radius: inherit; }
@@ -485,7 +489,6 @@ a.org-item { text-decoration: none; }
 @keyframes aparecer { from { opacity: 0; transform: scale(.6) rotate(-30deg); } to { opacity: 1; transform: none; } }
 @keyframes marquesina { to { transform: translateX(-50%); } }
 
-.hero::before { animation: girar 180s linear infinite; }
 .hero::after {
   content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
   background: radial-gradient(520px circle at var(--mx, 30%) var(--my, 40%), rgba(120, 145, 220, .16), transparent 65%);
@@ -499,7 +502,7 @@ a.org-item { text-decoration: none; }
 .hero-photo { animation: revelar 1.2s cubic-bezier(.7, 0, .2, 1) .15s both; }
 
 /* Sello con anillo de texto giratorio */
-.hero-badge { width: 196px; height: 196px; padding: 0; background: none; box-shadow: none; right: 36px; top: 22px; animation: aparecer 1s cubic-bezier(.2, .8, .2, 1.2) .9s both; }
+.hero-badge { width: 196px; height: 196px; padding: 0; background: none; box-shadow: none; right: 36px; top: -84px; animation: aparecer 1s cubic-bezier(.2, .8, .2, 1.2) .9s both; }
 .hero-badge img {
   position: absolute; inset: 13%; width: 74%; height: 74%;
   border-radius: 50%; background: var(--navy-900); padding: 5px;
@@ -555,7 +558,7 @@ section[data-word] > .wrap { position: relative; z-index: 1; }
 .page-hero::before {
   content: ""; position: absolute; right: -120px; top: 50%; width: 460px; height: 460px; margin-top: -230px;
   background: url("../img/logo.webp") center / contain no-repeat; opacity: .08; filter: grayscale(1);
-  animation: girar 160s linear infinite; pointer-events: none;
+  pointer-events: none;
 }
 .page-hero .wrap { position: relative; }
 
@@ -564,7 +567,7 @@ section[data-word] > .wrap { position: relative; z-index: 1; }
   grid-column: 1 / -1; position: relative; overflow: hidden; padding: 64px 56px 56px 64px;
   background: var(--contornos) center / cover no-repeat, var(--navy-900); color: var(--white); border-top-left-radius: 90px;
 }
-.coming-seal { position: absolute; right: -90px; bottom: -100px; width: 360px; height: 360px; opacity: .14; filter: grayscale(1); animation: girar 120s linear infinite; }
+.coming-seal { position: absolute; right: -90px; bottom: -100px; width: 360px; height: 360px; opacity: .14; filter: grayscale(1); }
 .coming .eyebrow { color: var(--silver); position: relative; }
 .coming h3 { position: relative; font-size: clamp(26px, 3vw, 38px); line-height: 1.15; max-width: 18ch; letter-spacing: -.015em; }
 .coming p { position: relative; margin-top: 16px; max-width: 54ch; color: #c3c9d6; }
@@ -583,9 +586,24 @@ section[data-word] > .wrap { position: relative; z-index: 1; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero::before, .badge-ring, .page-hero::before, .coming-seal, .marquee-track { animation: none; }
+  .badge-ring, .marquee-track { animation: none; }
   .hero-text > *, .hero-photo, .hero-badge { animation: none; }
 }
+
+/* ---------- Equipo ---------- */
+.team-group + .team-group { margin-top: 56px; }
+.team-group h3 { font-size: 13px; letter-spacing: .16em; text-transform: uppercase; color: var(--navy-900); padding-bottom: 12px; margin-bottom: 28px; border-bottom: 2px solid var(--navy-900); }
+.team-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px; }
+.member { position: relative; text-align: center; padding: 32px 20px 28px; background: var(--white); box-shadow: var(--shadow); border-radius: var(--r); transition: transform .25s, box-shadow .25s; }
+.member:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+.member-photo { width: 112px; height: 112px; margin: 0 auto 18px; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center; background: var(--contornos) center / cover no-repeat, var(--navy-900); box-shadow: 0 0 0 4px var(--white), 0 0 0 5px var(--plomo-200); }
+.member-photo img { width: 100%; height: 100%; object-fit: cover; }
+.member-photo span { font-family: var(--font-brand); font-size: 30px; font-weight: 700; letter-spacing: .06em; color: var(--silver); }
+.member h4 { font-size: 16.5px; color: var(--navy-900); line-height: 1.3; }
+.member p { margin-top: 6px; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--steel); }
+.member-link { position: absolute; top: 14px; right: 14px; width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; border-radius: var(--r); color: var(--plomo-400); transition: color .2s, background .2s; }
+.member-link:hover { color: var(--navy-900); background: var(--plomo-50); }
+.member-link .i { width: 17px; height: 17px; }
 
 /* ---------- Tablet ---------- */
 @media (max-width: 1100px) {
@@ -593,6 +611,7 @@ section[data-word] > .wrap { position: relative; z-index: 1; }
   .with-side { grid-template-columns: 1fr; gap: 56px; }
   .site-footer .foot-top { grid-template-columns: 1fr 1fr; }
   .goals { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .team-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
 @media (max-width: 960px) {
@@ -616,10 +635,11 @@ section[data-word] > .wrap { position: relative; z-index: 1; }
   .nav .sub a .i { color: var(--silver); }
   .hero .wrap { min-height: 0; flex-direction: column; align-items: stretch; }
   .hero-text { width: 100%; padding: 64px 0 40px; }
-  .hero-photo { position: relative; top: auto; left: auto; width: auto; margin: 0 0 0 28px; height: 360px; border-top-left-radius: 90px; }
+  .hero-media { position: relative; left: auto; aspect-ratio: auto; max-height: none; margin-left: 28px; height: 360px; }
+  .hero-photo { border-top-left-radius: 90px; }
   .lines { grid-template-columns: 1fr; }
   .secs, .org { grid-template-columns: 1fr 1fr; }
-  .hero-badge { left: auto; right: 18px; top: auto; bottom: 290px; width: 140px; height: 140px; }
+  .hero-badge { right: 18px; top: -62px; width: 140px; height: 140px; }
   .card.featured .card-body { padding: 40px 36px 28px 44px; }
   .card.featured .card-foot { padding: 14px 36px 14px 44px; }
   .about-grid { grid-template-columns: 1fr; gap: 40px; }
@@ -645,9 +665,10 @@ section[data-word] > .wrap { position: relative; z-index: 1; }
   .hero h1 { font-size: 36px; }
   .hero .lead { font-size: 16px; }
   .hero-text { padding: 52px 0 36px; }
-  .hero-photo { margin: 0 0 0 18px; height: 240px; border-top-left-radius: 60px; }
+  .hero-media { margin-left: 18px; height: 240px; }
+  .hero-photo { border-top-left-radius: 60px; }
   .hero-photo figcaption { left: 24px; bottom: 18px; }
-  .hero-badge { bottom: 190px; right: 10px; width: 104px; height: 104px; }
+  .hero-badge { top: -46px; right: 10px; width: 104px; height: 104px; }
   .marquee { padding: 24px 0; }
   section[data-word]::before { top: 16px; right: -12px; font-size: 72px; }
   .coming { padding: 40px 24px 36px; border-top-left-radius: 50px; }
@@ -669,6 +690,10 @@ section[data-word] > .wrap { position: relative; z-index: 1; }
   .sec-card .numeral { font-size: 52px; }
   .page-hero { padding: 48px 0 72px; border-bottom-left-radius: 60px; }
   .cards, .secs, .org, .goals, .pillars { grid-template-columns: 1fr; }
+  .team-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .member { padding: 24px 12px 20px; }
+  .member-photo { width: 84px; height: 84px; }
+  .member-photo span { font-size: 24px; }
   .card-body { padding: 26px 22px 20px; }
   .card-foot { padding: 14px 22px; }
   .line { grid-template-columns: 44px 1fr; }

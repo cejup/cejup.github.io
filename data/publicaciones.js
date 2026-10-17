@@ -9,10 +9,9 @@
               (se usa en el enlace: publicacion.html?id=...)
    seccion    "articulos", "reformas-del-mes", "peru-mundo"
               o "periodismo"  (ver data/estructura.js)
-   linea      Línea de investigación: "derecho-procesal-penal",
-              "derecho-penal", "politica-criminal",
-              "derecho-penal-parte-especial", "criminologia"
-              o "compliance"
+   linea      Línea de investigación: "derecho-penal" (Parte General),
+              "derecho-penal-parte-especial", "derecho-procesal-penal",
+              "politica-criminal", "criminologia" o "compliance"
    titulo     Título completo
    autores    Lista de autores: ["Nombre Apellido", "..."]
    fecha      Fecha de publicación en formato AAAA-MM-DD

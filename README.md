@@ -7,7 +7,7 @@ HTML, CSS y JavaScript puros: no necesita instalar nada. Para verlo en local bas
 ## Cómo está organizado el contenido
 
 **Líneas de investigación** (para los artículos)
-Derecho Procesal Penal · Derecho Penal · Política Criminal · Derecho Penal – Parte Especial · Criminología · Compliance
+Derecho Penal – Parte General · Derecho Penal – Parte Especial · Derecho Procesal Penal · Política Criminal · Criminología · Compliance
 
 **Secciones**
 - *Artículos de investigación*: trabajos por línea de investigación.
@@ -21,7 +21,7 @@ Los nombres y descripciones se editan en `data/estructura.js`.
 
 ```
 index.html            Inicio: líneas, secciones y publicaciones recientes
-publicaciones.html    Todas las publicaciones, con filtros por sección y línea
+repositorio.html      Todas las publicaciones, con filtros por sección y línea
 publicacion.html      Página de cada publicación (?id=...)
 nosotros.html         Quiénes somos, misión, visión y estructura
 

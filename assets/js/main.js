@@ -32,7 +32,7 @@
   const urlPub = p => `publicacion.html?id=${encodeURIComponent(p.id)}`;
   const urlRepo = (params = {}) => {
     const u = new URLSearchParams(Object.entries(params).filter(([, v]) => v));
-    return "publicaciones.html" + (u.toString() ? "?" + u : "");
+    return "repositorio.html" + (u.toString() ? "?" + u : "");
   };
 
   /* ---------- Iconos ---------- */
@@ -114,11 +114,11 @@
               ${SECCIONES_FIJAS.map(s => `<a href="${urlRepo({ seccion: s.id })}">${icon(s.icono)}${esc(s.nombre)}</a>`).join("")}
             </div>
           </div>
-          <a href="publicaciones.html"${activo("publicaciones")}>Publicaciones</a>
+          <a href="repositorio.html"${activo("repositorio")}>Repositorio</a>
           <a href="nosotros.html"${activo("nosotros")}>Nosotros</a>
           <a href="#contacto">Contacto</a>
         </nav>
-        <a class="icon-btn" href="publicaciones.html#buscar" aria-label="Buscar publicaciones">${icon("search")}</a>
+        <a class="icon-btn" href="repositorio.html#buscar" aria-label="Buscar en el repositorio">${icon("search")}</a>
         <button class="menu-btn" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav">${icon("menu")}</button>
       </div>`;
 
@@ -297,8 +297,8 @@
     }
   }
 
-  /* ---------- Publicaciones ---------- */
-  function publicaciones() {
+  /* ---------- Repositorio ---------- */
+  function repositorio() {
     const params = new URLSearchParams(location.search);
     const estado = {
       seccion: seccion(params.get("seccion")) ? params.get("seccion") : "",
@@ -329,7 +329,7 @@
     function pintar() {
       const s = seccion(estado.seccion);
       const l = linea(estado.linea);
-      let kicker = "CEJUP", titulo = "Publicaciones", sub = "Artículos, reformas del mes, derecho comparado y periodismo jurídico elaborados por los miembros del CEJUP.";
+      let kicker = "CEJUP", titulo = "Repositorio", sub = "Artículos, reformas del mes, derecho comparado y periodismo jurídico elaborados por los miembros del CEJUP.";
       if (s) { kicker = "Sección"; titulo = s.nombre; sub = s.descripcion; }
       else if (l) { kicker = "Línea de investigación"; titulo = l.nombre; sub = l.descripcion; }
       if (s && l) sub = `${s.descripcion} Línea: ${l.nombre}.`;
@@ -390,12 +390,12 @@
     if (!p) {
       app.innerHTML = `
         <div class="page-hero compact"><div class="wrap">
-          <nav class="crumbs"><a href="index.html">Inicio</a><span>/</span><a href="publicaciones.html">Publicaciones</a></nav>
+          <nav class="crumbs"><a href="index.html">Inicio</a><span>/</span><a href="repositorio.html">Repositorio</a></nav>
           <h1>No encontramos esta publicación</h1>
         </div></div>
         <section><div class="wrap">
-          ${vacio("El enlace no es válido o la publicación fue retirada", "Revisa todas las publicaciones.")}
-          <p style="text-align:center;margin-top:24px"><a class="btn btn-dark" href="publicaciones.html">Ver publicaciones</a></p>
+          ${vacio("El enlace no es válido o la publicación fue retirada", "Revisa el repositorio completo.")}
+          <p style="text-align:center;margin-top:24px"><a class="btn btn-dark" href="repositorio.html">Ir al repositorio</a></p>
         </div></section>`;
       return;
     }
@@ -426,7 +426,7 @@
       <div class="page-hero compact"><div class="wrap">
         <nav class="crumbs">
           <a href="index.html">Inicio</a><span>/</span>
-          <a href="publicaciones.html">Publicaciones</a>
+          <a href="repositorio.html">Repositorio</a>
           ${s ? `<span>/</span><a href="${urlRepo({ seccion: s.id })}">${esc(s.nombre)}</a>` : ""}
         </nav>
         <div class="detail-meta">${etiquetasPub(p)}</div>
@@ -477,6 +477,35 @@
         setTimeout(() => { btn.querySelector("span").textContent = "Compartir"; }, 2200);
       } catch (_) { /* el usuario canceló */ }
     });
+  }
+
+  /* ---------- Nosotros: equipo ---------- */
+  function nosotros() {
+    const equipo = window.CEJUP_EQUIPO || [];
+    const seccion = $("#equipo");
+    if (!seccion || !equipo.length) return;
+    const grupos = [];
+    equipo.forEach(m => {
+      const g = m.grupo || "Equipo";
+      let grupo = grupos.find(x => x.nombre === g);
+      if (!grupo) grupos.push(grupo = { nombre: g, miembros: [] });
+      grupo.miembros.push(m);
+    });
+    const iniciales = n => String(n || "").split(/\s+/).filter(Boolean).slice(0, 2).map(p => p[0].toUpperCase()).join("");
+    $("#equipo-grid").innerHTML = grupos.map(g => `
+      <div class="team-group">
+        ${grupos.length > 1 ? `<h3>${esc(g.nombre)}</h3>` : ""}
+        <div class="team-grid">
+          ${g.miembros.map(m => `
+            <article class="member">
+              <div class="member-photo">${m.foto ? `<img src="${esc(m.foto)}" alt="${esc(m.nombre)}" loading="lazy">` : `<span>${esc(iniciales(m.nombre))}</span>`}</div>
+              <h4>${esc(m.nombre)}</h4>
+              ${m.cargo ? `<p>${esc(m.cargo)}</p>` : ""}
+              ${m.linkedin ? `<a class="member-link" href="${esc(m.linkedin)}" target="_blank" rel="noopener" aria-label="LinkedIn de ${esc(m.nombre)}">${icon("linkedin")}</a>` : ""}
+            </article>`).join("")}
+        </div>
+      </div>`).join("");
+    seccion.hidden = false;
   }
 
   /* ---------- Detalles de navegación ---------- */
@@ -534,7 +563,7 @@
     });
 
     // Aparición suave de los bloques
-    const bloques = document.querySelectorAll(".sec-head, .card, .line, .sec-card, .side-block, .side-box, .about-grid > *, .mv-block, .goal, .pillar, .org-item, .cta, .quote-band blockquote, .abstract, .prose");
+    const bloques = document.querySelectorAll(".sec-head, .member, .card, .line, .sec-card, .side-block, .side-box, .about-grid > *, .mv-block, .goal, .pillar, .org-item, .cta, .quote-band blockquote, .abstract, .prose");
     if (!("IntersectionObserver" in window)) return;
     document.documentElement.classList.add("js");
     const obs = new IntersectionObserver(entradas => {
@@ -555,7 +584,7 @@
     sprite();
     cabecera(pagina);
     pie();
-    const init = { inicio, publicaciones, publicacion }[pagina];
+    const init = { inicio, repositorio, publicacion, nosotros }[pagina];
     if (init) init();
     comportamientos();
   });

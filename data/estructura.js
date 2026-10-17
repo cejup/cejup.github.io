@@ -13,28 +13,28 @@
 
 window.CEJUP_LINEAS = [
   {
-    id: "derecho-procesal-penal",
-    nombre: "Derecho Procesal Penal",
-    icono: "columns",
-    descripcion: "Proceso penal acusatorio, prueba, medidas de coerción, litigación y garantías del imputado y la víctima."
-  },
-  {
     id: "derecho-penal",
-    nombre: "Derecho Penal",
+    nombre: "Derecho Penal – Parte General",
     icono: "scales",
-    descripcion: "Parte general: teoría del delito, imputación, autoría y participación, y consecuencias jurídicas del delito."
-  },
-  {
-    id: "politica-criminal",
-    nombre: "Política Criminal",
-    icono: "compass",
-    descripcion: "Cómo responde el Estado frente al delito: reformas, penas, prevención y evaluación de sus resultados."
+    descripcion: "Teoría del delito, imputación, autoría y participación, y consecuencias jurídicas del delito."
   },
   {
     id: "derecho-penal-parte-especial",
     nombre: "Derecho Penal – Parte Especial",
     icono: "book",
     descripcion: "Los delitos en particular: contra la vida, el patrimonio, la administración pública y la criminalidad organizada, entre otros."
+  },
+  {
+    id: "derecho-procesal-penal",
+    nombre: "Derecho Procesal Penal",
+    icono: "columns",
+    descripcion: "Proceso penal acusatorio, prueba, medidas de coerción, litigación y garantías del imputado y la víctima."
+  },
+  {
+    id: "politica-criminal",
+    nombre: "Política Criminal",
+    icono: "compass",
+    descripcion: "Cómo responde el Estado frente al delito: reformas, penas, prevención y evaluación de sus resultados."
   },
   {
     id: "criminologia",
