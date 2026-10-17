@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Publicaciones · CEJUP</title>
+  <meta name="description" content="Artículos, notas y papers del Círculo de Estudios sobre Justicia Penal (CEJUP).">
+  <link rel="icon" type="image/png" href="assets/img/favicon.png">
+  <link rel="apple-touch-icon" href="assets/img/icono-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body data-page="publicaciones">
+  <header id="site-header"></header>
+
+  <main>
+    <div class="page-hero">
+      <div class="wrap">
+        <nav class="crumbs"><a href="index.html">Inicio</a><span>/</span><span id="pubs-crumb">Publicaciones</span></nav>
+        <h1 id="pubs-title">Publicaciones</h1>
+        <p class="sub" id="pubs-sub">Artículos, notas y papers elaborados por los miembros del CEJUP.</p>
+      </div>
+    </div>
+
+    <section>
+      <div class="wrap pubs-layout">
+        <div>
+          <div class="toolbar">
+            <div class="tabs" id="tabs" role="tablist" aria-label="Tipo de publicación"></div>
+            <label class="search">
+              <span class="sr-only">Buscar publicaciones</span>
+              <svg class="i" aria-hidden="true"><use href="#i-search"/></svg>
+              <input id="buscar" type="search" placeholder="Buscar por título, autor o tema" autocomplete="off">
+            </label>
+          </div>
+          <p class="results-info" id="info"></p>
+          <div class="pub-list" id="lista" style="margin-top:14px"></div>
+        </div>
+
+        <aside>
+          <div class="side-box">
+            <h3>Tipos de publicación</h3>
+            <dl>
+              <div><dt>Artículos</dt><dd>Análisis e investigación sobre Derecho Penal y Procesal Penal.</dd></div>
+              <div><dt>Notas</dt><dd>Comentarios breves sobre casos, jurisprudencia y temas de actualidad.</dd></div>
+              <div><dt>Papers</dt><dd>Investigaciones académicas extensas, con metodología y referencias.</dd></div>
+            </dl>
+          </div>
+          <div class="side-box dark">
+            <h3>¿Quieres publicar?</h3>
+            <p>Si eres miembro del CEJUP y tienes un trabajo listo, envíalo a la Dirección de Investigación.</p>
+            <a class="btn btn-silver" href="https://wa.me/51969100823" target="_blank" rel="noopener"><svg class="i" aria-hidden="true"><use href="#i-whatsapp"/></svg>Escríbenos</a>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer id="contacto"></footer>
+
+  <script src="data/publicaciones.js"></script>
+  <script src="data/actividades.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
