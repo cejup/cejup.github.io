@@ -33,6 +33,7 @@
   const fechaLarga = iso => new Date(iso + "T12:00:00").toLocaleDateString("es-PE", { day: "numeric", month: "long", year: "numeric" });
   const normal = s => String(s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
   const cuenta = (n, uno, varios) => `${n} ${n === 1 ? uno : varios}`;
+  const nombres = l => l.length > 1 ? `${l.slice(0, -1).join(", ")} y ${l[l.length - 1]}` : (l[0] || "");
   const urlPub = p => `publicacion.html?id=${encodeURIComponent(p.id)}`;
   const urlRepo = (params = {}) => {
     const u = new URLSearchParams(Object.entries(params).filter(([, v]) => v));
@@ -199,7 +200,7 @@
         <div class="card-body">
           <span class="card-kicker">${esc(kicker)}</span>
           <h3><a href="${urlPub(p)}">${esc(p.titulo)}</a></h3>
-          ${p.autores && p.autores.length ? `<p class="card-authors">${esc(p.autores.join(", "))}</p>` : ""}
+          ${p.autores && p.autores.length ? `<p class="card-authors">${esc(nombres(p.autores))}</p>` : ""}
           ${p.resumen ? `<p class="card-text">${esc(p.resumen)}</p>` : ""}
           <a class="more" href="${urlPub(p)}">Leer más</a>
         </div>
@@ -437,7 +438,8 @@
         </nav>
         <div class="detail-meta">${etiquetasPub(p)}</div>
         <h1>${esc(p.titulo)}</h1>
-        ${p.autores && p.autores.length ? `<p class="pub-authors">${esc(p.autores.join(", "))}</p>` : ""}
+        ${p.autores && p.autores.length ? `<p class="pub-authors">${esc(nombres(p.autores))}</p>` : ""}
+        ${p.revision && p.revision.length ? `<p class="pub-revision">Edición y revisión: ${esc(nombres(p.revision))}</p>` : ""}
         ${p.etiquetas && p.etiquetas.length ? `<div class="tags">${p.etiquetas.map(e => `<span class="tag">${esc(e)}</span>`).join("")}</div>` : ""}
       </div></div>
 

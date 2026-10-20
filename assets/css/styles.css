@@ -369,6 +369,7 @@ a.org-item { text-decoration: none; }
 .detail-meta { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 18px; }
 .detail-meta time { font-size: 14px; color: var(--plomo-400); }
 .page-hero .pub-authors { color: #c3c9d6; font-size: 16.5px; margin-top: 16px; }
+.page-hero .pub-revision { color: var(--plomo-400); font-size: 14px; margin-top: 6px; }
 .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
 .tag { font-size: 12.5px; padding: 4px 10px; border-radius: 2px; background: rgba(255, 255, 255, .08); color: #c3c9d6; }
 .notice { display: flex; gap: 12px; padding: 14px 18px; border-radius: var(--r); background: #fff8e6; border: 1px solid #f0dfb0; color: #6b5200; font-size: 14.5px; margin-bottom: 30px; }
